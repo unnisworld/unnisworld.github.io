@@ -20,6 +20,12 @@ lst = [1,2,3]
 You can add items using "append":
 
 {% highlight python %}
+lst.append('a')
+{% endhighlight %}
+
+You can iterate over elements of the list using the for loop:
+
+{% highlight python %}
 for item in lst:
     # Do something with item
 {% endhighlight %}
