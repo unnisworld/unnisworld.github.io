@@ -51,6 +51,6 @@ for item in lst[:]: # Notice the [:] which makes a slice
        # Now we can modify lst, since we are iterating over a copy of it
 {% endhighlight %}
 
-Taken from this [Stackoverflow response][stackoverflow-link].
+Taken from this nice [Stackoverflow response][stackoverflow-link].
 
 [stackoverflow-link]: https://stackoverflow.com/questions/2910864/in-python-how-can-i-declare-a-dynamic-array               
