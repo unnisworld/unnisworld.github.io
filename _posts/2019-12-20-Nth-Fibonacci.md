@@ -2,7 +2,7 @@
 layout: post
 title:  "Nth Fibonacci"
 date:   2019-12-20 17:47:00 +0530
-categories: algorithm easy-algorithm
+categories: algorithm easy-algorithm algo-warmup
 ---
 Problem Statement : Write a function to return the Nth Fibonacci number, where N is the parameter to the function. 
 
@@ -14,6 +14,8 @@ Mathematical formula :
 fib(1) = 0, fib(2) = 1 
 fib(n) = fib(n-1) + fib(n-2) for n > 2
 {% endhighlight %}
+
+## Fibonacci sequence using recursion
 
 A naive implementation to calculate `Nth Fibonacci` using recursion will be :
 
@@ -54,7 +56,40 @@ public class Main {
 }
 {% endhighlight %}
 
-The time complexity of this approach is 2^n (`exponential`). That's because, at every step except for the base case, the problem gets divided into 2 sub problems and this happens n times, which gives 2^n. For a more thorough mathematical analysis of the time complexity using [recurrence relation] [recurrence-relation], have a look at this [Youtube video] [time-complexity-of-fib-sequence].
+The time complexity of this approach is 2^n (`exponential`). That's because, at every step except for the base case, the problem gets divided into 2 sub problems and this happens n times, which gives 2^n. For a more thorough mathematical analysis of the time complexity using [recurrence relation] [recurrence-relation], have a look at this [Youtube video] [time-complexity-of-fib-sequence]. 
+
+The space complexity of this approach is O(n) because in total there are `n recursive calls`, each using the callstack to store execution data including the intermeidate result. 
+
+## Optimized Fibonacci sequence using recursion and memoization
+
+If you look at the execution sequence of the previous implementation, you can see that there are a lot of duplicate computations happening. For example, when you computing fib(5), the call to calculate fib(3) is done twice. 
+
+{% highlight java %}
+	fib(5) = fib(4) + fib(3)
+	fib(5) = (fib(3) + fib(2)) + fib(3)
+	fib(5) = ((fib(2) + fib(1)) + fib(2)) + (fib(2) + fib(1))
+{% endhighlight %}
+
+The idea here is to optimize the execution by introducing a cache to store the intermediate results. In the above example, first time when fib(3) is called, the result of that will be placed in a cache and when second time fib(3) is called, the result will be returned from the cache. This technique is called [Memoization] [memoization-technique]. 
+
+Given below is the memoized version of `getNthFib`. 
+
+{% highlight python %}
+# time O(n)
+# space O(n)
+def getNthFib(n, memoize = {1: 0, 2: 1}):
+    if n in memoize:
+        return memoize[n]
+    else:
+        memoize[n] = getNthFib(n - 1, memoize) + getNthFib(n - 2, memoize)
+        return memoize[n]
+
+#main     
+print(getNthFib(10)) 
+{% endhighlight %}
+
+With this approach the time complexity comes down to O(n). The space complexity also will be O(n), because we are storing all the intermediate results in memory.
 
 [recurrence-relation]: https://mathinsight.org/definition/recurrence_relation
-[time-complexity-of-fib-sequence]: https://www.youtube.com/watch?v=pqivnzmSbq4   
+[time-complexity-of-fib-sequence]: https://www.youtube.com/watch?v=pqivnzmSbq4
+[memoization-technique]: https://en.wikipedia.org/wiki/Memoization
