@@ -54,4 +54,7 @@ public class Main {
 }
 {% endhighlight %}
 
-The time complexity of this approach is 2^n. That's because, at every step except for the base case, the problem gets divided into 2 sub problems and this happens n times, which gives 2^n.
+The time complexity of this approach is 2^n (`exponential`). That's because, at every step except for the base case, the problem gets divided into 2 sub problems and this happens n times, which gives 2^n. For a more thorough mathematical analysis of the time complexity using [recurrence relation] [recurrence-relation], have a look at this [Youtube video] [time-complexity-of-fib-sequence].
+
+[recurrence-relation]: https://mathinsight.org/definition/recurrence_relation
+[time-complexity-of-fib-sequence]: https://www.youtube.com/watch?v=pqivnzmSbq4   
