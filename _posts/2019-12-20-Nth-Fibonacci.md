@@ -90,6 +90,31 @@ print(getNthFib(10))
 
 With this approach the time complexity comes down to O(n). The space complexity also will be O(n), because we are storing all the intermediate results in memory.
 
+## Iterative solution
+
+An iterative solution which runs in O(n) time complexity and O(1) space complexity is given below.
+
+{% highlight python %}
+# time O(n)
+# space O(1)
+def getNthFib(n):
+    lastTwoResults = [0, 1]
+    counter = 3
+
+    while counter <= n:
+        nextFib = lastTwoResults[0] + lastTwoResults[1]
+        lastTwoResults[0] = lastTwoResults[1]
+        lastTwoResults[1] = nextFib
+        counter +=1
+
+    return lastTwoResults[1] if n > 1 else lastTwoResults[0]    
+        
+#main     
+print(getNthFib(10))
+{% endhighlight %}
+
+Hope it was a nice warmup exercise to start with the algorithm learning process.
+
 [recurrence-relation]: https://mathinsight.org/definition/recurrence_relation
 [time-complexity-of-fib-sequence]: https://www.youtube.com/watch?v=pqivnzmSbq4
 [memoization-technique]: https://en.wikipedia.org/wiki/Memoization
