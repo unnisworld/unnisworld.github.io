@@ -92,7 +92,7 @@ With this approach the time complexity comes down to O(n). The space complexity 
 
 ## Iterative solution
 
-An iterative solution which runs in O(n) time complexity and O(1) space complexity is given below.
+Finally, we will look at an iterative solution which runs in O(n) time complexity and O(1) space complexity. This approach uses two temp variables (stored in lastTwoResults) to store the previous two intermediate results. The counter is initialized to 3 because, the first two results are already given as base case and its the 3rd result that we want to start computing from.
 
 {% highlight python %}
 # time O(n)
