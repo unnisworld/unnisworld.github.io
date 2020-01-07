@@ -21,7 +21,7 @@ def quicksort(array):
         return quicksort(less) + [pivot] + quicksort(greater)
 
 #main
-print(quicksort([10,5,2,3]))
+print(quicksort([10,7,8,6,1,5,2,3]))
 {% endhighlight %}
 
 Quick sort is a divide and conquer algorithm. A divide and conquer algorithm works by recursively breaking down a problem into two or more sub-problems of the same or related type, until these become simple enough to be solved directly. This implementation of the algorithm is very simple. 
