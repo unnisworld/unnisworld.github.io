@@ -75,5 +75,5 @@ This function, sleeps 1 second before printing out each element. But the Big O o
 
 A more detailed explanation of the comparison of quick sort and merge sort is available in [this excellent book] [grokking-algorithms].
 
-[python-tutor] - http://www.pythontutor.com/live.html#mode=edit
-[grokking-algorithms] - https://www.amazon.in/Grokking-Algorithms-illustrated-programmers-curious/dp/1617292230
+[python-tutor]: http://www.pythontutor.com/live.html#mode=edit
+[grokking-algorithms]: https://www.amazon.in/Grokking-Algorithms-illustrated-programmers-curious/dp/1617292230
