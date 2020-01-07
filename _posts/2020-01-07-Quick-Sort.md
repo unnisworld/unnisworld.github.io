@@ -44,7 +44,7 @@ First, lets try to understand how the average case complexity of Quick sort is O
 7. array = [3]
 {% endhighlight %}
 
-Try tracing the execution steps using the [python-tutor] [Python Tutor live editor].
+Try tracing the execution steps using the [Python Tutor live editor] [python-tutor].
 
 In this example, the execution went till 7 levels. The maximum levels that such an execution can go, when quick sort is able to divide the the input array into almost equal parts is, log n. If the input array size is 8, max height or level can go till 3 (because 2^3 = 8). Similarlly, if the input array size is 16, the max height or level can go till 4 (because 2^4 = 16). To say it in a different way, for every execution, quick sort divides the problem space into half (or divides it by 2). How many times can you divide 16 using 2, 4 times. How may times can you divide 8 using 2, 3 times. That's another way to understand it. 
 
@@ -72,7 +72,7 @@ def print_items2(list):
 
 This function, sleeps 1 second before printing out each element. But the Big O of this function is still O(n). The actual Big O of this function is O(n) + C, where C is some constant. For larger values of n, C becomes insignificant, so we ignore C in Big O analysis. But, what if n is small, then C can make a difference while comparing algorithms. This is what happens while comparing merge sort and quick sort for smaller values of n. The constant C for merge sort is really large that for smaller values of n, quick sort is better option. Another point to keep in mind is that, the performance of quick sort depends on the selection of pivot. In the implementation above we used the first element as pivot. It was done to keep the implementation simple. But that resulted in bad performace for already sorted array. A better alternative would be to pick the middle element as pivot.    
 
-A more detailed explanation of the comparison of quick sort and merge sort is available in [gorkking-algorithms] [this excellent book].
+A more detailed explanation of the comparison of quick sort and merge sort is available in [this excellent book] [grokking-algorithms].
 
 [python-tutor] - http://www.pythontutor.com/live.html#mode=edit
-[gorkking-algorithms] - https://www.amazon.in/Grokking-Algorithms-illustrated-programmers-curious/dp/1617292230
+[grokking-algorithms] - https://www.amazon.in/Grokking-Algorithms-illustrated-programmers-curious/dp/1617292230
