@@ -26,8 +26,9 @@ print(quicksort([10,5,2,3]))
 
 Quick sort is a divide and conquer algorithm. A divide and conquer algorithm works by recursively breaking down a problem into two or more sub-problems of the same or related type, until these become simple enough to be solved directly. This implementation of the algorithm is very simple. 
 
-Simple case of quick sort : The simple case of quick sort is when input array size is 0 or 1, in which case the array is already sorted. 
-How quick sort does Recursive breakdown of problem : It picks a pivot element, in our implementation, the first element of the array. Creates two subarrays, less and greater, in such a way that less contains all elements less than pivot and greater contains all elements greater than pivot. Since pivot is a single element array, it is already sorted. Not just that, by seperating out less elements and greater elements into two different arrays, we have inadvertently found the position of pivot element in the final sorted array. Also, final sorted array = quicksort([less]) + [pivot] + quicksort([greater]).
+`Simple case of quick sort` : The simple case of quick sort is when input array size is 0 or 1, in which case the array is already sorted. 
+
+`How quick sort does Recursive breakdown of problem` : It picks a pivot element, in our implementation, the first element of the array. Creates two subarrays, less and greater, in such a way that less contains all elements less than pivot and greater contains all elements greater than pivot. Since pivot is a single element array, it is already sorted. Not just that, by seperating out less elements and greater elements into two different arrays, we have inadvertently found the position of pivot element in the final sorted array. Also, final sorted array = quicksort([less]) + [pivot] + quicksort([greater]).
 
 ## Time complexity analysis of quick sort
 The time complexity analysis of quick sort is slightly tricky. The worst case time complexity of quick sort is O(n^2) and the average case complexity is O(n log n). Even with such bad Big(O), Quick sort is still a widely popular sorting algorithm. We will get to the reasons of that in a while.
