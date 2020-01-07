@@ -37,8 +37,8 @@ First, lets try to understand how the average case complexity of Quick sort is O
 {% highlight python %}
 1. array = [10,7,8,6,1,5,2,3], pivot = <10>, less = [7,8,6,1,5,2,3], greater = []
 2. array = [7,8,6,1,5,2,3],    pivot = <7> , less = [6,1,5,2,3],     greater = [8]
-3. array = [6,1,5,2,3],		   pivot = <6>,  less = [1,5,2,3],       greater = []
-4. array = [1,5,2,3],		   pivot = <1>,  less = [],              greater = [5,2,3]
+3. array = [6,1,5,2,3],        pivot = <6>,  less = [1,5,2,3],       greater = []
+4. array = [1,5,2,3],          pivot = <1>,  less = [],              greater = [5,2,3]
 5. array = [5,2,3],            pivot = <5>,  less = [2,3],           greater = []
 6. array = [2,3],              pivot = <2>,  less = [],              greater = [3]
 7. array = [3]
