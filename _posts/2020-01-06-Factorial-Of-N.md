@@ -21,10 +21,13 @@ fact(n) = n * fact(n-1) for n > 0
 # time O(n)
 # space O(n)
 def fact(n):
-	if n == 0:
-		return 1
-	else:
-		return n * fact(n-1)
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n-1)
+
+#main
+print(fact(10))
 {% endhighlight %}		
 
 Algorithm Analysis :
@@ -56,12 +59,15 @@ Unlike the fibonacci problem where memoization improved the time complexity from
 # time O(n)
 # space O(n)
 def fact(n, memoize = {0:1}):
-	if n in memoize:
-		return memoize[n]
-	else:
-		result = n * fact(n-1, memoize)
-		memoize[n] = result
-		return result
+    if n in memoize:
+        return memoize[n]
+    else:
+        result = n * fact(n-1, memoize)
+        memoize[n] = result
+        return result
+
+#main
+print(fact(10))
 {% endhighlight %}
 
 [time-complexity-of-factorial]: https://stackoverflow.com/questions/2327244/complexity-of-recursive-factorial-program
