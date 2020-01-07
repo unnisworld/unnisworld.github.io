@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Nth Factorial"
+title:  "Factorial of N"
 date:   2020-01-06 12:03:00 +0530
 categories: algorithm easy-algorithm algo-warmup
 ---
