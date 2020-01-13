@@ -4,7 +4,12 @@ title:  "Dijkstra’s Algorithm"
 date:   2020-01-08 10:10:00 +0530
 categories: algorithm graph ShortestPath DijkstrasAlgorithm
 ---
-Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” for `weighted graphs`. Remember, [BFS Algorithm][BSF-Algo] does the same thing for unweighted graphs. Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
+## A Gentle introduction to Dijkstra’s algorithm
+Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” for `weighted graphs`. Remember, [BFS Algorithm][BSF-Algo] does the same thing for unweighted graphs. 
+
+Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
+
+Dijkstra’s algorithm doesn’t work for graphs with negative weight edges. For graphs with negative weight edges, Bellman–Ford algorithm can be used
 
 # WORKING WITH DIJKSTRA’S ALGORITHM
 
@@ -32,9 +37,10 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  {% endhighlight %}
 
 Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path. There are four steps to Dijkstra’s algorithm:
-1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you always start from your `Start` position, the first cheapest node will be B.
+1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you are starting from your `Start` position, the first cheapest node will be B.
 
-2.  `Update total cost table`. Check whether there’s a cheaper path to the neighbors of this node. If so, update their costs in the total cost table. For a path to qualify as cheaper path, the `new_total_cost` must be less than the `current_total_cost` entry present in `total cost table`.
+2.  `Update total cost table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table. For example, if the current_cheapest_node is Node `B` then, `total_cost_to_reach_current_cheapest_node` will be `costs_table["B"] = 2`. For each of the neighbours of B, namely are `A` and `Finish`, we compute the total_cost using formula, `new_total_cost_to_reach_the_current_neighbour_node = total_cost_to_reach_current_cheapest_node + current_neighbour_node_edge_weight`.If new_total_cost_to_reach_the_current_neighbour_node is less than the current_total_cost in costs_table (value of costs_table[current_neighbour_node]), we replace the current_total_cost with new_total_cost.
+ 
 
 3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph.
 
