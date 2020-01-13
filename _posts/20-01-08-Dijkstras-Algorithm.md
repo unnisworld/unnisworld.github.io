@@ -37,20 +37,20 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  {% endhighlight %}
 
 Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path. There are four steps to Dijkstra’s algorithm:
+
 1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you are starting from your `Start` position, the first cheapest node will be B.
 
-2.  `Update total cost table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table. For example, if the current_cheapest_node is Node `B` then, `total_cost_to_reach_current_cheapest_node` will be `costs_table["B"] = 2`. For each of the neighbours of B, namely are `A` and `Finish`, we compute the total_cost using formula, `new_total_cost_to_reach_the_current_neighbour_node = total_cost_to_reach_current_cheapest_node + current_neighbour_node_edge_weight`.If new_total_cost_to_reach_the_current_neighbour_node is less than the current_total_cost in costs_table (value of costs_table[current_neighbour_node]), we replace the current_total_cost with new_total_cost.
+2.  `Update total cost table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table entry for the neighbour node. We need to keep in mind that costs_table entry keep track of the total cost incured to reach each node while following the `shortest known path` from the Start node. The cost_table is updated only if costs_table[neighbour] > costs_table[current_cheapest_node] + neighbour_edge_weight. Or in otherwords, the costs_table is updated only if the cost to reach the given node, based on latest calculations, is less than the old calculated cost.
  
+3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked neighbour vertex is equal to the target.
 
-3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph.
-
-4.  `Calculate the final path`. (Coming up later!)
+4.  `Calculate the final shortest` path from Start to End Node. (We will do this later!)
 
 Let's apply this algorithm on our Graph and see.
 
- Step 1: The cheapest node from `Start` Node is Node `B`.
+Step 1: The cheapest node from `Start` Node is Node `B`.
 
- Step 2: Update the total_distance table. Formula used will be total_distance[node] distance from `Start` to all Nodes in the table.
+Step 2: Update the total_distance table. Formula used will be total_distance[node] distance from `Start` to all Nodes in the table.
 
  {% highlight python %}
  			Node   | Time to Node
