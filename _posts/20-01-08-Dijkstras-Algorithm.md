@@ -36,7 +36,7 @@ Let's apply Dijkstra’s algorithm and see whether we are able to get the same s
 
 2.  `Update total cost table`. Check whether there’s a cheaper path to the neighbors of this node. If so, update their costs in the total cost table. For a path to qualify as cheaper path, the `new_total_cost` must be less than the `current_total_cost` entry present in `total cost table`.
 
-3.  `Repeat` until you’ve done this for every node in the graph.
+3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph.
 
 4.  `Calculate the final path`. (Coming up later!)
 
