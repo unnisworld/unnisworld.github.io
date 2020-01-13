@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Dijkstra’s Algorithm"
-date:   2020-01-08 08:35:00 +0530
+date:   2020-01-13 10:10:00 +0530
 categories: algorithm graph ShortestPath DijkstrasAlgorithm
 ---
 Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” for `weighted graphs`. Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
