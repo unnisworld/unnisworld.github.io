@@ -36,7 +36,7 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  `Red tick` indicates an Arrow.        
  {% endhighlight %}
 
-There are four steps to Dijkstra’s algorithm:
+There are three steps to Dijkstra’s algorithm:
 
 1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you are starting from your `Start` position, the first cheapest node will be B.
 
@@ -44,7 +44,7 @@ There are four steps to Dijkstra’s algorithm:
  
 3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked cheapest vertex is equal to the target node.
 
-4.  `Calculate the final shortest` path from Start to End Node. (I will explain how to do this later!)
+4.  Now you are done with Dijkstras algorithm. The cost of shortest path to all the Nodes is available in costs_table. Similarly, the actual Shortest path from Finish to Start (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
 
 Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path that we got through manual inspection.
 
