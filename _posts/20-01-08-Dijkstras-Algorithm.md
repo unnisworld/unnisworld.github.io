@@ -27,16 +27,20 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  {% endhighlight %}
 
 Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path. There are four steps to Dijkstra’s algorithm:
-1.  Find the cheapest node. This is the node you can get to in the least amount of time.
+1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time.
 
-2.  Check whether there’s a cheaper path to the neighbors of this node. If so, update their costs.
+2.  `Update total cost table`. Check whether there’s a cheaper path to the neighbors of this node. If so, update their costs in the total cost table. For a path to qualify as cheaper path, the `new_total_cost` must be less than the `current_total_cost` entry present in `total cost table`.
 
-3.  Repeat until you’ve done this for every node in the graph.
+3.  `Repeat` until you’ve done this for every node in the graph.
 
-4.  Calculate the final path. (Coming up in the next section!)
+4.  `Calculate the final path`. (Coming up later!)
 
- Step 1: The cheapest node from Start is Node B. 
+Let's apply this algorithm on our Graph and see.
+
+ Step 1: The cheapest node from Start is Node B.
+
  Step 2: Update the distance from Start to all Nodes in the table.
+
  {% highlight python %}
  			Node   | Time to Node
  			A      | 6
@@ -45,15 +49,22 @@ Let's apply Dijkstra’s algorithm and see whether we are able to get the same s
  {% endhighlight %}
 
 Step 3: Select B and move to B as B is the cheapest node.
-Step 4: Update the distance table based on distance from B to each of these nodes.
+
+Step 4: Update the distance table based on distance from B to each of these nodes. We need to keep two things in mind, 
+
+  `1.` That the `distance table` tracks the shortest distance. We compute the new shortest distance by adding the distance from `Start` to `the current node` with the `distance from current node` to the node which is the `hashtable key`.
+
+  `2.` The `distance table` is updated with new distance only if the newly computed distance is less than the current entry.
+
 {% highlight python %}
-			Node   | Time to Node
-			A      | 5 (2 + 3)
-			B      | 2
-			Finish | 7 (5 + 2) 
+    Node   | Time to Node
+    A      | 5 (2+3, `dist from Start to B` + `dist from B to A`)
+    B      | 2
+    Finish | 7 (2+5, `dist from Start to B` + `dist from B to Finish`) 
  {% endhighlight %}
 
-Step 5: Find the next cheapest node, which is A.
+Step 5: Find the next cheapest `unvisited` node from the cost table, which will be `Node A`.
+
 Step 6: Update the cost for Node A's neighbours
 {% highlight python %}
 			Node   | Time to Node
@@ -62,12 +73,12 @@ Step 6: Update the cost for Node A's neighbours
 			Finish | 6 (2 + 3 + 1)		
  {% endhighlight %}
 
- # We need 3 hashtables 
- 1. To represent the Graph
- 2. To represent the cost from Start to the given node. If cost is unknown we put infinity.
- 3. To track the parent node of a given node
+ ## Datastructures required to implement Dijkstra's Algorithm
+ 1. To `represent the Graph`.
+ 2. To `represent the cost from Start to the given node`. If cost is unknown we put infinity.
+ 3. To `track the parent node` of a given node
 
- How do we represent a Graph with weight using HashTable? Based on our earlier strategy we would have represented the connection from "Start" to A and B as follows,
+ How do we `represent the Graph` with weight using HashTable? Based on our earlier strategy we would have represented the connection from "Start" to A and B as follows,
 
 {% highlight python %}
 graph = {}
@@ -91,12 +102,82 @@ In the new representation, graph["Start"] would return a HashTable who's key/val
 
 Again, the best way to understand this is to visualize it using [PythonTutor] [Python-tutor-2].
 
+## Digikstra's Algorithm
+{% highlight python %}
+# the graph
+graph = {}
+graph["start"] = {}
+graph["start"]["a"] = 6
+graph["start"]["b"] = 2
+
+graph["a"] = {}
+graph["a"]["fin"] = 1
+
+graph["b"] = {}
+graph["b"]["a"] = 3
+graph["b"]["fin"] = 5
+
+graph["fin"] = {}
+
+# the costs table
+infinity = float("inf")
+costs = {}
+costs["a"] = 6
+costs["b"] = 2
+costs["fin"] = infinity
+
+# the parents table
+parents = {}
+parents["a"] = "start"
+parents["b"] = "start"
+parents["fin"] = None
+
+processed = []
+
+def find_lowest_cost_node(costs):
+    lowest_cost = float("inf")
+    lowest_cost_node = None
+    # Go through each node.
+    for node in costs:
+        cost = costs[node]
+        # If it's the lowest cost so far and hasn't been processed yet...
+        if cost < lowest_cost and node not in processed:
+            # ... set it as the new lowest-cost node.
+            lowest_cost = cost
+            lowest_cost_node = node
+    return lowest_cost_node
+
+# Find the lowest-cost node that you haven't processed yet.
+node = find_lowest_cost_node(costs)
+# If you've processed all the nodes, this while loop is done.
+while node is not None:
+    current_total_cost = costs[node]
+    # Go through all the neighbors of this node.
+    neighbors = graph[node]
+    for n in neighbors.keys():
+        cost_to_reach_this_neighbour_node = neighbors[n]
+        new_total_cost = current_total_cost + cost_to_reach_this_neighbour_node
+        # If it's cheaper to get to this neighbor by going through this node...
+        if current_total_cost > new_total_cost:
+            # ... update the cost for this node.
+            costs[n] = new_total_cost
+            # This node becomes the new parent for this neighbor.
+            parents[n] = node
+    # Mark the node as processed.
+    processed.append(node)
+    # Find the next node to process, and loop.
+    node = find_lowest_cost_node(costs)
+
+print("Cost from the start to each node:")
+print(costs)
+{% endhighlight %}
+
+You may spend sometime playing around with the [Live code][Digikstras-Live] to get a hang of it. You may notice that the parents table is not really used in the given code. We will get to that later. For now, just keep in mind that this table will be required to print the actual path from "Start" to "Finish".
+
+
+
 [Python-tutor-1]: http://www.pythontutor.com/visualize.html#code=graph%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%20%3D%20%5B%22A%22,%20%22B%22%5D&cumulative=false&curInstr=2&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false
 
 [Python-tutor-2]: http://www.pythontutor.com/visualize.html#code=graph%3D%7B%7D%0Agraph%5B%22Start%22%5D%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%5B%22A%22%5D%20%3D%206%0Agraph%5B%22Start%22%5D%5B%22B%22%5D%20%3D%202&cumulative=false&curInstr=4&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false
 
-
-
-
-
-
+[Digikstras-Live]: http://www.pythontutor.com/visualize.html#code=%23%20the%20graph%0Agraph%20%3D%20%7B%7D%0Agraph%5B%22start%22%5D%20%3D%20%7B%7D%0Agraph%5B%22start%22%5D%5B%22a%22%5D%20%3D%206%0Agraph%5B%22start%22%5D%5B%22b%22%5D%20%3D%202%0A%0Agraph%5B%22a%22%5D%20%3D%20%7B%7D%0Agraph%5B%22a%22%5D%5B%22fin%22%5D%20%3D%201%0A%0Agraph%5B%22b%22%5D%20%3D%20%7B%7D%0Agraph%5B%22b%22%5D%5B%22a%22%5D%20%3D%203%0Agraph%5B%22b%22%5D%5B%22fin%22%5D%20%3D%205%0A%0Agraph%5B%22fin%22%5D%20%3D%20%7B%7D%0A%0A%23%20the%20costs%20table%0Ainfinity%20%3D%20float%28%22inf%22%29%0Acosts%20%3D%20%7B%7D%0Acosts%5B%22a%22%5D%20%3D%206%0Acosts%5B%22b%22%5D%20%3D%202%0Acosts%5B%22fin%22%5D%20%3D%20infinity%0A%0A%23%20the%20parents%20table%0Aparents%20%3D%20%7B%7D%0Aparents%5B%22a%22%5D%20%3D%20%22start%22%0Aparents%5B%22b%22%5D%20%3D%20%22start%22%0Aparents%5B%22fin%22%5D%20%3D%20None%0A%0Aprocessed%20%3D%20%5B%5D%0A%0Adef%20find_lowest_cost_node%28costs%29%3A%0A%20%20%20%20lowest_cost%20%3D%20float%28%22inf%22%29%0A%20%20%20%20lowest_cost_node%20%3D%20None%0A%20%20%20%20%23%20Go%20through%20each%20node.%0A%20%20%20%20for%20node%20in%20costs%3A%0A%20%20%20%20%20%20%20%20cost%20%3D%20costs%5Bnode%5D%0A%20%20%20%20%20%20%20%20%23%20If%20it's%20the%20lowest%20cost%20so%20far%20and%20hasn't%20been%20processed%20yet...%0A%20%20%20%20%20%20%20%20if%20cost%20%3C%20lowest_cost%20and%20node%20not%20in%20processed%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%23%20...%20set%20it%20as%20the%20new%20lowest-cost%20node.%0A%20%20%20%20%20%20%20%20%20%20%20%20lowest_cost%20%3D%20cost%0A%20%20%20%20%20%20%20%20%20%20%20%20lowest_cost_node%20%3D%20node%0A%20%20%20%20return%20lowest_cost_node%0A%0A%23%20Find%20the%20lowest-cost%20node%20that%20you%20haven't%20processed%20yet.%0Anode%20%3D%20find_lowest_cost_node%28costs%29%0A%23%20If%20you've%20processed%20all%20the%20nodes,%20this%20while%20loop%20is%20done.%0Awhile%20node%20is%20not%20None%3A%0A%20%20%20%20current_total_cost%20%3D%20costs%5Bnode%5D%0A%20%20%20%20%23%20Go%20through%20all%20the%20neighbors%20of%20this%20node.%0A%20%20%20%20neighbors%20%3D%20graph%5Bnode%5D%0A%20%20%20%20for%20n%20in%20neighbors.keys%28%29%3A%0A%20%20%20%20%20%20%20%20cost_to_reach_this_neighbour_node%20%3D%20neighbors%5Bn%5D%0A%20%20%20%20%20%20%20%20new_total_cost%20%3D%20current_total_cost%20%2B%20cost_to_reach_this_neighbour_node%0A%20%20%20%20%20%20%20%20%23%20If%20it's%20cheaper%20to%20get%20to%20this%20neighbor%20by%20going%20through%20this%20node...%0A%20%20%20%20%20%20%20%20if%20current_total_cost%20%3E%20new_total_cost%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%23%20...%20update%20the%20cost%20for%20this%20node.%0A%20%20%20%20%20%20%20%20%20%20%20%20costs%5Bn%5D%20%3D%20new_total_cost%0A%20%20%20%20%20%20%20%20%20%20%20%20%23%20This%20node%20becomes%20the%20new%20parent%20for%20this%20neighbor.%0A%20%20%20%20%20%20%20%20%20%20%20%20parents%5Bn%5D%20%3D%20node%0A%20%20%20%20%23%20Mark%20the%20node%20as%20processed.%0A%20%20%20%20processed.append%28node%29%0A%20%20%20%20%23%20Find%20the%20next%20node%20to%20process,%20and%20loop.%0A%20%20%20%20node%20%3D%20find_lowest_cost_node%28costs%29%0A%0Aprint%28%22Cost%20from%20the%20start%20to%20each%20node%3A%22%29%0Aprint%28costs%29&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false
