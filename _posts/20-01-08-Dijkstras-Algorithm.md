@@ -10,7 +10,7 @@ Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” f
 
 When you work with Dijkstra’s algorithm, each edge in the graph has a number associated with it. These are called weights.
 
-Given below is a weighted graph where numbers on the edges denotes the travel time to reach from one vertex to another. If we apply the normal BFS algorithm on this graph, the shortest path from Start to Finish would be (Start)->(A)->(Finish). The travel time for this path is 6 + 1 = 7 minutes. On an Eyeball inspection we can see that there is a path with shorter travel time, (Start)->(B)->(A)->(Finish) which has a total travel time of 2 + 3 + 1 = 6 minutes.
+Given below is a weighted graph where numbers on the edges denotes the travel time to reach from one vertex to another. If we apply the normal BFS algorithm on this graph, the shortest path from Start to Finish would be (Start)->(A)->(Finish) or even (Start)->(B)->(Finish). The travel time for this path is 6 + 1 = 7 minutes (or 2 + 5 = 7 mins). On an Eyeball inspection we can see that there is a path with shorter travel time, (Start)->(B)->(A)->(Finish) which has a total travel time of 2 + 3 + 1 = 6 minutes.
 
 {% highlight python %}
          ( A )
@@ -32,7 +32,7 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  {% endhighlight %}
 
 Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path. There are four steps to Dijkstra’s algorithm:
-1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time.
+1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you always start from your `Start` position, the first cheapest node will be B.
 
 2.  `Update total cost table`. Check whether there’s a cheaper path to the neighbors of this node. If so, update their costs in the total cost table. For a path to qualify as cheaper path, the `new_total_cost` must be less than the `current_total_cost` entry present in `total cost table`.
 
