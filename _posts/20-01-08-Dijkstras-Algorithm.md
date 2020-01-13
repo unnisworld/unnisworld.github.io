@@ -42,52 +42,73 @@ Let's apply Dijkstra’s algorithm and see whether we are able to get the same s
 
 2.  `Update total cost table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table entry for the neighbour node. We need to keep in mind that costs_table entry keep track of the total cost incured to reach each node while following the `shortest known path` from the Start node. The cost_table is updated only if costs_table[neighbour] > costs_table[current_cheapest_node] + neighbour_edge_weight. Or in otherwords, the costs_table is updated only if the cost to reach the given node, based on latest calculations, is less than the old calculated cost.
  
-3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked neighbour vertex is equal to the target.
+3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked cheapest vertex is equal to the target.
 
 4.  `Calculate the final shortest` path from Start to End Node. (We will do this later!)
 
 Let's apply this algorithm on our Graph and see.
 
-Step 1: The cheapest node from `Start` Node is Node `B`.
+Step 1: Pick the cheapest node from costs_table. The generic algorithm to find the cheapest node is very simple. We just iterate over the entire costs_table and pick the least cost node that is not yet processed/visited. You may have this question in mind, the Algorithm says pick the least cost node from the current position. But the costs_table contains the summation of cost from the Start position. How does this approach (to find cheapest node) still work? That's because the cost to reach the current node from Start Node is a constant, say X. Then, what we have in costs_table is [X + w1, X + w2, X + w3] etc where w1, w2, w3 are edge weights of neighbours n1, n2, n3. With or without the X there, we will always get the least cost node, because comparing X + w1, X + w2 and X + w3 is same as comparing w1, w2 and w3.
 
-Step 2: Update the total_distance table. Formula used will be total_distance[node] distance from `Start` to all Nodes in the table.
+At the very beginning of the iteration, the entries in costs_table are simple entries, meaning they are the distance from Start node to all other nodes.
+{% highlight python %}
+      Node   | Total cost to reach the Node
+      A      | 6
+      B      | 2
+      Finish | Infinity (infinity because there is no direct path and we do not know the actual distance)
+{% endhighlight %}
 
- {% highlight python %}
- 			Node   | Time to Node
- 			A      | 6
- 			B      | 2
- 			Finish | Infinity (infinity because we do not know the actual distance) 
- {% endhighlight %}
+From the costs_table we pick least cost node, which is Node B. 
 
-Step 3: Select B and move to B as B is the cheapest node.
+Step 2: Update the costs_table for each of the neighbours of least cost node (currently Node B). Formula used will be new_cost = costs_table[least_cost_node] + neighbours_edge_weight, which is same as new_cost = costs_table[least_cost_node] + graph[least_cost_node][neighbour]. We replace the cost table entry only if new_cost is less than the existing cost. In otherwords, we replace the cost table entry only if new path is better than the existing path.
 
-Step 4: Update the distance table based on distance from B to each of these nodes. We need to keep two things in mind, 
-
-  `1.` That the `distance table` tracks the shortest distance. We compute the new shortest distance by adding the distance from `Start` to `the current node` with the `distance from current node` to the node which is the `hashtable key`.
-
-  `2.` The `distance table` is updated with new distance only if the newly computed distance is less than the current entry.
+Since B is the least cost node, we get all neighbours of B, using graph[B].keys(). This will return A and Finish. So, try to update the costs_table entries for A and Finish. Current costs_table entry for A is 6, and the new_cost is costs_table[B] + edge_weight = 2 + 3 = 5. Since, new_cost is less that current entry we update the costs_table with new value.  
 
 {% highlight python %}
-    Node   | Time to Node
-    A      | 5 (2+3, `dist from Start to B` + `dist from B to A`)
-    B      | 2
-    Finish | 7 (2+5, `dist from Start to B` + `dist from B to Finish`) 
- {% endhighlight %}
+      Node   | Total cost to reach the Node
+      A      | 5
+      B      | 2
+      Finish | Infinity (infinity because there is no direct path and we do not know the actual distance)
+{% endhighlight %}
 
-Step 5: Find the next cheapest `unvisited` node from the cost table, which will be `Node A`.
+Now, for Finish the current cost is Infinity. new_cost = costs_table[B] + edge_weight = 2 + 5 = 7.
 
-Step 6: Update the cost for Node A's neighbours
 {% highlight python %}
-			Node   | Time to Node
-			A      | 5
-			B      | 2
-			Finish | 6 (2 + 3 + 1)		
- {% endhighlight %}
+      Node   | Total cost to reach the Node
+      A      | 5
+      B      | 2
+      Finish | 7
+{% endhighlight %}
 
- ## Datastructures required to implement Dijkstra's Algorithm
- 1. To `represent the Graph`.
- 2. To `represent the cost from Start to the given node`. If cost is unknown we put infinity.
- 3. To `track the parent node` of a given node
+Step 3: Add B to processed/visited nodes list. Update parents_table entry for A and Finish. Basically, we will set parents_table[A]='B' and parents_table[Finish]='B'. We will discuss about why this is needed later.
+
+Step 4: Pick the next least cost node from costs_table. This time, it will return A.
+
+Step 5: From here we can loop back to Step 2. But for the purpose of illustration, we will walk through the entire execution flow. So, in this step we update the costs_table for each of the neighbours of A based on the formula explained in Step 2. A's has only one neighbour Finish. The current cost for Finish is 7. The new_cost = costs_table[A] + edge_weight = 5 + 1 = 6. Hurrah!, we found a new path which is better than the currenty known best path. It takes only 6 mins to reach Finish through A compared to the previous time which was 7 mins. So we update the cost table accordingly.
+
+{% highlight python %}
+      Node   | Total cost to reach the Node
+      A      | 5
+      B      | 2
+      Finish | 6
+{% endhighlight %}
+
+Step 6: Add A to processed/visited nodes list. Update parents_table entry for Finish. Basically, we will set parents_table[Finish]='A'.
+
+Step 7: We again call find_lowest_cost_node, which will return Finish node.
+
+Step 8: There are no neighbours for Finish node. So, updation of costs_table gets skipped.
+
+Step 9: We again go back to find_lowest_cost_node. This time it will return None, as all of the nodes are in the processed/visited node list. That marks the end of Dijkstra's algorithm execution. At this point, costs_table will have the cost of shortest path from Start node to any node. For example, costs_table[Finish] will give cost of Shortest path from Start node to Finish node.
+
+Step 10: In order to print the actual shortest path, we need to backtrack using the parents_table. parents_table['Finish'] will give parent of Finish. We will have to do this for every parent node, until we reach the Start node.
+
+
+# Datastructures required to implement Dijkstra's Algorithm
+
+1. To `represent the Graph`.
+2. To `represent the cost from Start to the given node`. If cost is unknown we put infinity.
+3. To `track the parent node` of a given node
 
  How do we `represent the Graph` with weight using HashTable? Based on our earlier strategy we would have represented the connection from "Start" to A and B as follows,
 
