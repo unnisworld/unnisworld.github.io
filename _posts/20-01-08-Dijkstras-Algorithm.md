@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Dijkstra’s Algorithm"
-date:   2020-01-13 10:10:00 +0530
+date:   2020-01-08 10:10:00 +0530
 categories: algorithm graph ShortestPath DijkstrasAlgorithm
 ---
 Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” for `weighted graphs`. Remember, [BFS Algorithm][BSF-Algo] does the same thing for unweighted graphs. Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
@@ -13,17 +13,22 @@ When you work with Dijkstra’s algorithm, each edge in the graph has a number a
 Given below is a weighted graph where numbers on the edges denotes the travel time to reach from one vertex to another. If we apply the normal BFS algorithm on this graph, the shortest path from Start to Finish would be (Start)->(A)->(Finish). The travel time for this path is 6 + 1 = 7 minutes. On an Eyeball inspection we can see that there is a path with shorter travel time, (Start)->(B)->(A)->(Finish) which has a total travel time of 2 + 3 + 1 = 6 minutes.
 
 {% highlight python %}
-       (A)
-       /|\		
-     6/	| \1
-     /  |  \
-    /  3|   \
-(Start) |  (Finish)
-    \   |   / 
-     \  |  /  
-     2\ | /5
-       \|/ 
-       (B)
+         ( A )
+       `/``|` \		
+      6/   |   \1
+      /    |    \
+     /    3|     \
+    /      |     `\`  
+(Start)    |   (Finish)
+   \       |      `/` 
+    \      |      /  
+    2\     |     /5
+      \    |    /
+       \   |   /
+       `\` |  /
+         ( B )
+
+ `Red tick` indicates an Arrow.        
  {% endhighlight %}
 
 Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path. There are four steps to Dijkstra’s algorithm:
