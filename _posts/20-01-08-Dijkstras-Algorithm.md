@@ -36,17 +36,17 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  `Red tick` indicates an Arrow.        
  {% endhighlight %}
 
-Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path. There are four steps to Dijkstra’s algorithm:
+There are four steps to Dijkstra’s algorithm:
 
 1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you are starting from your `Start` position, the first cheapest node will be B.
 
-2.  `Update total cost table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table entry for the neighbour node. We need to keep in mind that costs_table entry keep track of the total cost incured to reach each node while following the `shortest known path` from the Start node. The cost_table is updated only if costs_table[neighbour] > costs_table[current_cheapest_node] + neighbour_edge_weight. Or in otherwords, the costs_table is updated only if the cost to reach the given node, based on latest calculations, is less than the old calculated cost.
+2.  `Update total costs table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table entry for the neighbour node. We need to keep in mind that costs_table entry keep track of the total cost incured to reach each node while following the `shortest known path` from the Start node. The costs_table is updated only if the new calculated cost is less than the current cost present in costs_table. Or in otherwords, the costs_table is updated only if the cost of new path is less than the cost of existing path.
  
-3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked cheapest vertex is equal to the target.
+3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked cheapest vertex is equal to the target node.
 
-4.  `Calculate the final shortest` path from Start to End Node. (We will do this later!)
+4.  `Calculate the final shortest` path from Start to End Node. (I will explain how to do this later!)
 
-Let's apply this algorithm on our Graph and see.
+Let's apply Dijkstra’s algorithm and see whether we are able to get the same shortest path that we got through manual inspection.
 
 Step 1: Pick the cheapest node from costs_table. The generic algorithm to find the cheapest node is very simple. We just iterate over the entire costs_table and pick the least cost node that is not yet processed/visited. You may have this question in mind, the Algorithm says pick the least cost node from the current position. But the costs_table contains the summation of cost from the Start position. How does this approach (to find cheapest node) still work? That's because the cost to reach the current node from Start Node is a constant, say X. Then, what we have in costs_table is [X + w1, X + w2, X + w3] etc where w1, w2, w3 are edge weights of neighbours n1, n2, n3. With or without the X there, we will always get the least cost node, because comparing X + w1, X + w2 and X + w3 is same as comparing w1, w2 and w3.
 
