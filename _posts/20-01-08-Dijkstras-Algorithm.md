@@ -265,7 +265,7 @@ Before we analyse this algorithm any further, one thing that we want to verify i
 
 ## References
 
-One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a Youtube video and it's available [here][Abdul-Bari]. 
+One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a YouTube video that's available [here][Abdul-Bari]. 
 
 [Abdul-Bari]: https://www.youtube.com/watch?v=XB4MIexjvY0&t=541s
 
