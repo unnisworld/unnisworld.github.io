@@ -9,7 +9,7 @@ Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” f
 
 Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
 
-Dijkstra’s algorithm doesn’t work for graphs with negative weight edges. For graphs with negative weight edges, Bellman–Ford algorithm can be used
+Dijkstra’s algorithm doesn’t work for graphs with negative weight edges. For graphs with negative weight edges, Bellman–Ford algorithm can be used.
 
 # WORKING WITH DIJKSTRA’S ALGORITHM
 
@@ -257,6 +257,10 @@ while parent:
 You may spend sometime playing around with the [Live code][Dijkstra-Live] to get a hang of it.
 
 Before we analyse this algorithm any further, one thing that we want to verify is the correctness of the implementation for atleast basic cases. For this I used the graph from [Geeks for Geeks][Geeks-for-Geeks-Graph-Question-1] and the output can be seen [here][Geeks-for-Geeks-Graph-Solution-1].
+
+## References
+
+One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a Youtube video and it's available [here][Abdul-Bari]. 
 
 [Abdul-Bari]: https://www.youtube.com/watch?v=XB4MIexjvY0&t=541s
 
