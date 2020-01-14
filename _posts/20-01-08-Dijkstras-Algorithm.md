@@ -19,22 +19,22 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
 
 {% highlight python %}
          ( A )
-       `/``|` \		
+       `#``#` \   
       6/   |   \1
       /    |    \
      /    3|     \
-    /      |     `\`  
+    /      |     `#`  
 (Start)    |   (Finish)
-   \       |      `/` 
+   \       |      `#` 
     \      |      /  
     2\     |     /5
       \    |    /
        \   |   /
-       `\` |  /
+       `#` |  /
          ( B )
 
- `Red tick` indicates an Arrow.        
- {% endhighlight %}
+ `#` indicates an Arrow.        
+{% endhighlight %}
 
 Dijkstra Algorithm consists of a `Setup phase` and a `Probing phase`.
 
