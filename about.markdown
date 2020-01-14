@@ -6,7 +6,7 @@ permalink: /about/
 
 Hello! I am Unni, an `empathetic programmer` from Bangalore. I `love to code`, infact I am passionate about producing `clean code` that follows `SOLID` design principles.
 
-This Blog was created an attempt to improve my learning process. While learning algorithms I realized that there is a pattern to my learning process. It is generally a 4 step process.
+This Blog was created as an attempt to improve my learning process. While learning algorithms I realized that there is a pattern to my learning process. It is generally a 4 step process.
 
 1. Google a lot to find resources that are easy to understand for `my Brain`. It can be a well written article or a good Youtube video. 
 
