@@ -38,15 +38,17 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
 
 Dijkstra Algorithm consists of a `Setup phase` and a `Probing phase`.
 
-Setup Phase : During the setup phase you initialize a costs_table. It is a dictionary or hashtable containing entries for all the nodes except the source node, the key will be the Node and the value will be the cost to reach each node, following the shortest path. Initially, the costs_table will be initialized using following rule, only Nodes that has a direct path from Source node will have an entry with respective cost. All other Nodes will have an entry with cost set to infinity. That's because, at this point, we don't know the Shortest path to those Nodes. 
+`Setup Phase` : During the setup phase you initialize a costs_table. It is a dictionary or hashtable containing entries for all the nodes except the source node, the key will be the Node and the value will be the cost to reach each node, following the shortest path. Initially, the costs_table will be initialized using following rule, only Nodes that has a direct path from Source node will have an entry with respective cost. All other Nodes will have an entry with cost set to infinity. That's because, at this point, we don't know the Shortest path to those Nodes. 
 
-Probing Phase : Durign the probing phase we traverse through each Node of the Graph in search of more optimal paths to it's neighbouring nodes. As and when we find an optimal path to a Node, the costs_table is updated with that information. There is also a parents_table to keep track of the Shortest path to a given node. We will talk more about that later. The Probing phase comes to an end when we do not have any Node left for visiting. 
+`Probing Phase` : Durign the probing phase we traverse through each Node of the Graph in search of more optimal paths to it's neighbouring nodes. As and when we find an optimal path to a Node, the costs_table is updated with that information. There is also a parents_table to keep track of the Shortest path to a given node. We will talk more about that later. The Probing phase comes to an end when we do not have any Node left for visiting. 
 
 During the probing phase a two step process is followed.
-  Step 1: Identify the cheapest Node.
-  Step 2: `Perform relaxation` on each of the neighbouring nodes of the cheapest Node. During the relaxation process, we check whether the path from the current cheapest node to each of it's neighbouring nodes is more optimal (cheaper) than the current entry for that neighbouring node in costs_table. If the new path through the cheapest node is found to be more optimal, the costs_table entry is updated with the new cost. The parents_table is also updated to indicate that the current cheapest node is the parent of the neighbouring node under scanner.
 
-When you are done with probing phase, the cost of shortest path from the starting node to all other Nodes is available in costs_table. Similarly, the actual Shortest path from Start to Finish (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
+  Step 1: `Identify the cheapest Node`.
+
+  Step 2: `Perform relaxation` on each of the neighbouring nodes of the cheapest Node. During the relaxation process, we check whether the path to a neighbouring node is cheaper if we go through the current cheapest node that we have picked for processing. If yes, the costs_table entry is updated with the new cost. The parents_table is also updated to indicate that the current cheapest node is the parent of the neighbouring node under scanner.
+
+When you are done with the probing phase, the cost of shortest path from the starting node to all other nodes is available in costs_table. Similarly, the actual shortest path from Start to Finish (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
 
 Let's apply Dijkstra’s algorithm on our example Graph and see whether we are able to get the same shortest path that we got through manual inspection.
 
