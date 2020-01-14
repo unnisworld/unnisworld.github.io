@@ -239,7 +239,7 @@ while parent:
 
 {% endhighlight %}
 
-You may spend sometime playing around with the [Live code][Dijkstra-Live] to get a hang of it. You may notice that the parents table is not really used in the given code. We will get to that later. For now, just keep in mind that this table will be required to print the actual path from "Start" to "Finish".
+You may spend sometime playing around with the [Live code][Dijkstra-Live] to get a hang of it.
 
 Before we analyse this algorithm any further, one thing that we want to verify is the correctness of the implementation for atleast basic cases. For this I used the graph from [Geeks for Geeks][Geeks-for-Geeks-Graph-Question-1] and the output can be seen [here][Geeks-for-Geeks-Graph-Solution-1].
 
