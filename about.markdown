@@ -22,7 +22,7 @@ This blog is an attempt to speedup my internalization process and revision cycle
 
 It has been working well so far and I think that's the science behind it.
 
-I decided to write it down, firstly because the About page was almost empty ;-)... also, I ended up explaining the rational behind it to a friend of mine. Since I am a strong proponent of DRY principle, I don't want to repeat the same stuff to another colleague or friend of mine.
+I decided to write it down, firstly because I felt it to be a cool idea that can help others as well, but more importantly, the About page was almost empty ;-). Also, I ended up explaining the rational behind it to a friend of mine. Since I am a strong proponent of DRY principle, I don't want to repeat the same stuff to another colleague of mine.
 
  
 
