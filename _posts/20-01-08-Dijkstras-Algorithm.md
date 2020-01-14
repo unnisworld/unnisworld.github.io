@@ -11,7 +11,7 @@ Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for 
 
 Dijkstra’s algorithm doesn’t work for graphs with negative weight edges. For graphs with negative weight edges, Bellman–Ford algorithm can be used.
 
-# WORKING WITH DIJKSTRA’S ALGORITHM
+# Working with Dijkstra's Algorithm
 
 When you work with Dijkstra’s algorithm, each edge in the graph has a number associated with it. These are called weights.
 
@@ -49,6 +49,8 @@ During the probing phase a two step process is followed.
   Step 2: `Perform relaxation` on each of the neighbouring nodes of the cheapest Node. During the relaxation process, we check whether the path to a neighbouring node is cheaper if we go through the current cheapest node that we have picked for processing. If yes, the costs_table entry is updated with the new cost. The parents_table is also updated to indicate that the current cheapest node is the parent of the neighbouring node under scanner.
 
 When you are done with the probing phase, the cost of shortest path from the starting node to all other nodes is available in costs_table. Similarly, the actual shortest path from Start to Finish (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
+
+# Applying Dijkstra's Algorithm on the example Graph
 
 Let's apply Dijkstra’s algorithm on our example Graph and see whether we are able to get the same shortest path that we got through manual inspection.
 
@@ -153,7 +155,7 @@ In the new representation, graph["Start"] would return a HashTable who's key/val
 
 Again, the best way to understand this is to visualize it using [PythonTutor] [Python-tutor-2].
 
-## Naive Implementation of Dijkstra's Algorithm in Python
+## A Naive Implementation of Dijkstra's Algorithm in Python
 The aim here is to keep the code as simple as possible to understand. Some of the variable names have been stretched to the limit of identifier length possible in other languages. Thankfully, in Python identifiers are unlimited in length. Since the focus is on understanding the crux of the algorithm, some of the steps that is necessary to invoke the algorithm, like the initialization of parents_table and costs_table, has been hardcoded in Main method based on the example Graph that we are using for this blog. In subsequent iterations we will try to improve this implementation.
 
 I could have written the algorithm in couple of different ways, One is to have a findShortestPath() method which takes a Graph, Start Node and End Node as input. Another is to take only the Graph and Start Node as parameter and compute the shortest path to every other Node in the Graph. Here, we have taken a different approach, thinking that it will keep things simple. We have an implementation called dijkstras_algo() which when executed with a set of necessary inputs, produces the results in costs_table and parents_table. After the execution of the routine, you will be able to get the cost of shortest path from Start node to any Node in the graph by looking up the entry in costs_table with that Node as the key. Similarly, you will be able to print the exact Shortest path by backtracking the entries in parents_table. 
