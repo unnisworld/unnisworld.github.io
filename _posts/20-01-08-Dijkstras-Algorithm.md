@@ -36,21 +36,34 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
  `Red tick` indicates an Arrow.        
  {% endhighlight %}
 
-There are three steps to Dijkstra’s algorithm:
+Dijkstra Algorithm consists of a `Setup phase` and a `Probing phase`.
 
-1.  `Find the next cheapest node`. This is the node you can get to, from your current location, in the least amount of time. Since you are starting from your `Start` position, the first cheapest node will be B.
+Setup Phase : During the setup phase you initialize a costs_table. It is a dictionary or hashtable containing entries for all the nodes except the source node, the key will be the Node and the value will be the cost to reach each node, following the shortest path. Initially, the costs_table will be initialized using following rule, only Nodes that has a direct path from Source node will have an entry with respective cost. All other Nodes will have an entry with cost set to infinity. That's because, at this point, we don't know the Shortest path to those Nodes. 
 
-2.  `Update total costs table`. Iterate over each of the neighbours of the current_cheapest_node and update the costs_table entry for the neighbour node. We need to keep in mind that costs_table entry keep track of the total cost incured to reach each node while following the `shortest known path` from the Start node. The costs_table is updated only if the new calculated cost is less than the current cost present in costs_table. Or in otherwords, the costs_table is updated only if the cost of new path is less than the cost of existing path.
- 
-3.  `Repeat` `1` followed by `2`, until you’ve done this for every node in the graph. We repeat this for every node only if our aim is to calcuate the shortest path to all the nodes present in the Graph from the Start node. If we are interested only in shortest distance from the source to a single target, we can break the for loop when the picked cheapest vertex is equal to the target node.
+Probing Phase : Durign the probing phase we traverse through each Node of the Graph in search of more optimal paths to it's neighbouring nodes. As and when we find an optimal path to a Node, the costs_table is updated with that information. There is also a parents_table to keep track of the Shortest path to a given node. We will talk more about that later. The Probing phase comes to an end when we do not have any Node left for visiting. 
 
-4.  Now you are done with Dijkstras algorithm. The cost of shortest path to all the Nodes is available in costs_table. Similarly, the actual Shortest path from Finish to Start (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
+During the probing phase a two step process is followed.
+  Step 1: Identify the cheapest Node.
+  Step 2: `Perform relaxation` on each of the neighbouring nodes of the cheapest Node. During the relaxation process, we check whether the path from the current cheapest node to each of it's neighbouring nodes is more optimal (cheaper) than the current entry for that neighbouring node in costs_table. If the new path through the cheapest node is found to be more optimal, the costs_table entry is updated with the new cost. The parents_table is also updated to indicate that the current cheapest node is the parent of the neighbouring node under scanner.
+
+When you are done with probing phase, the cost of shortest path from the starting node to all other Nodes is available in costs_table. Similarly, the actual Shortest path from Start to Finish (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
 
 Let's apply Dijkstra’s algorithm on our example Graph and see whether we are able to get the same shortest path that we got through manual inspection.
 
-Step 1: Pick the cheapest node from costs_table. The generic algorithm to find the cheapest node is very simple. We just iterate over the entire costs_table and pick the least cost node that is not yet processed/visited. You may have this question in mind, the Algorithm says pick the least cost node from the current position. But the costs_table contains the summation of cost from the Start position. How does this approach (to find cheapest node) still work? That's because the cost to reach the current node from Start Node is a constant, say X. Then, what we have in costs_table is [X + w1, X + w2, X + w3] etc where w1, w2, w3 are edge weights of neighbours n1, n2, n3. With or without the X there, we will always get the least cost node, because comparing X + w1, X + w2 and X + w3 is same as comparing w1, w2 and w3.
+Setup Phase : In the setup phase we have to initialize the costs_table. The rule to be followed is that, make an entry for every node except the starting node in the costs_table. For the nodes that are having direct edge from the Start node, make an entry with the edge weight as the cost, because that's the cost required to reach that node. For all other nodes, set the cost as "infinity", because we don't know whats the cost to reach them. Following this rule, we initialise the costs_table as below. Ideally, code should be written to do this initialization in a generic way. But, to keep this simple, we are initializing costs_table this way, which is very specific for the Graph that we have taken as example. In subsequent iterations, we will try to generalize this code as well.
 
-At the very beginning of the iteration, the entries in costs_table are simple entries, meaning they are the distance from Start node to all other nodes.
+{% highlight python %}
+costs_table = {}
+costs_table["A"] = 6
+costs_table["B"] = 2
+costs_table["Finish"] = infinity
+{% endhighlight %}
+
+Probing Phase :
+
+Step 1: Pick the cheapest node from costs_table. The generic algorithm to find the cheapest node is very simple. We just iterate over the entire costs_table and pick the least cost node that is not yet processed/visited.
+
+At the very beginning of the iteration, the entries in costs_table are simple entries, meaning they are the weights of edges that connect the Start node to the respective nodes.
 {% highlight python %}
       Node   | Total cost to reach the Node
       A      | 6
@@ -80,6 +93,8 @@ Now, for Finish the current cost is Infinity. new_cost = costs_table[B] + edge_w
       Finish | 7
 {% endhighlight %}
 
+One thing to note is that the costs_table entry is an aggregation edge weights based on the shortest known path to a Node. As and when we discovery a new optimal path, the costs_table entry is updated to reflect the latest aggregate cost.
+
 Step 3: Add B to processed/visited nodes list. Update parents_table entry for A and Finish this way, parents_table[A]='B' and parents_table[Finish]='B'. Basically, we are keeping a track of the path that we are following. We will discuss about why this is needed later.
 
 Step 4: Pick the next least cost node from costs_table. This time, it will return A. B is not returned because, B is in the processed_nodes list.
@@ -106,7 +121,7 @@ Step 10: In order to print the actual shortest path, we need to backtrack using 
 # Datastructures required to implement Dijkstra's Algorithm
 
 1. HashTable to `represent the Graph`. It is actually a HashTable of HashTable. I will explain it later.
-2. HashTable to `represent the cost from Start to the given node`. If cost is unknown we put infinity.
+2. HashTable to `represent the total cost reach a node`. If cost is unknown we put infinity.
 3. List to `track the parent node` of a given node
 
 How do we `represent the Graph` with weight using HashTable? Based on our earlier strategy, we would have represented the connection from "Start" to A and B as follows,
@@ -242,6 +257,8 @@ while parent:
 You may spend sometime playing around with the [Live code][Dijkstra-Live] to get a hang of it.
 
 Before we analyse this algorithm any further, one thing that we want to verify is the correctness of the implementation for atleast basic cases. For this I used the graph from [Geeks for Geeks][Geeks-for-Geeks-Graph-Question-1] and the output can be seen [here][Geeks-for-Geeks-Graph-Solution-1].
+
+[Abdul-Bari]: https://www.youtube.com/watch?v=XB4MIexjvY0&t=541s
 
 [BSF-Algo]: https://unnisworld.github.io/algorithm/graph/bfs/shortestpath/2020/01/08/Graph-BFS.html
 
