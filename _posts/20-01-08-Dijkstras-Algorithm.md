@@ -15,7 +15,7 @@ Dijkstra’s algorithm doesn’t work for graphs with negative weight edges. For
 
 When you work with Dijkstra’s algorithm, each edge in the graph has a number associated with it. These are called weights.
 
-Given below is a weighted graph where numbers on the edges denotes the travel time to reach from one vertex to another. If we apply the normal BFS algorithm on this graph, the shortest path from Start to Finish would be (Start)->(A)->(Finish) or even (Start)->(B)->(Finish). The travel time for this path is 6 + 1 = 7 minutes (or 2 + 5 = 7 mins). On an Eyeball inspection we can see that there is a path with shorter travel time, (Start)->(B)->(A)->(Finish) which has a total travel time of 2 + 3 + 1 = 6 minutes.
+Given below is a weighted graph where numbers on the edges denotes the travel time to reach from one vertex to another. If we apply the normal BFS algorithm on this graph, the shortest path from Start to Finish would be (Start)->(A)->(Finish) or even (Start)->(B)->(Finish). The travel time for this path is 6 + 1 = 7 minutes (or 2 + 5 = 7 mins). On an detailed eyeball inspection we can see that there is a path with shorter travel time, (Start)->(B)->(A)->(Finish) which has a total travel time of 2 + 3 + 1 = 6 minutes.
 
 {% highlight python %}
          ( A )
@@ -38,7 +38,7 @@ Given below is a weighted graph where numbers on the edges denotes the travel ti
 
 Dijkstra Algorithm consists of a `Setup phase` and a `Probing phase`.
 
-`Setup Phase` : During the setup phase you initialize a costs_table. It is a dictionary or hashtable containing entries for all the nodes except the Start node, the key will be the Node and the value will be the cost to reach each node, following the shortest path. Initially, the costs_table will be initialized using following rule, only Nodes that has a direct path from Source node will have an entry with respective cost. All other Nodes will have an entry with cost set to infinity. That's because, at this point, we don't know the Shortest path to those Nodes. 
+`Setup Phase` : During the setup phase you initialize a costs_table. It is a dictionary or hashtable containing entries for all the nodes except the Start node, the key will be the Node and the value will be the cost to reach each node, following the shortest path. Initially, the costs_table will be initialized using following rule, only Nodes that has a direct path from Source node will have an entry with respective cost. All other Nodes will have an entry with cost set to infinity. That's because, at this point, we don't know the Shortest path to those Nodes. If this sounds confusing to you, don't worry, I am sure you will get it in the next section were we work through the example Graph. Just remember that in the Setup phase, we construct the costs_table.
 
 `Probing Phase` : Durign the probing phase we traverse through each Node of the Graph in search of more optimal paths to it's neighbouring nodes. As and when we find an optimal path to a Node, the costs_table is updated with that information. There is also a parents_table to keep track of the Shortest path to a given node. We will talk more about that later. The Probing phase comes to an end when we do not have any Node left for visiting. 
 
@@ -46,9 +46,9 @@ During the probing phase a two step process is followed.
 
   Step 1: `Identify the cheapest Node`.
 
-  Step 2: `Perform relaxation` on each of the neighbouring nodes of the cheapest Node. During the relaxation process, we check whether the path to a neighbouring node is cheaper if we go through the current cheapest node that we have picked for processing. If yes, the costs_table entry is updated with the new cost. The parents_table is also updated to indicate that the current cheapest node is the parent of the neighbouring node under scanner.
+  Step 2: `Perform relaxation` on each of the neighbouring nodes of the cheapest Node. During the relaxation process, we check whether the path to a neighbouring node is cheaper if we go through the current cheapest node . If yes, the costs_table entry is updated with the new cost. The parents_table is also updated to indicate that the current cheapest node is the parent of the neighbouring node under scanner.
 
-When you are done with the probing phase, the cost of shortest path from the starting node to all other nodes is available in costs_table. Similarly, the actual shortest path from Start to Finish (or any Node) can be deduced by backtracking on the parents_table. I will explain how to do this later.
+When you are done with the probing phase, the cost of shortest path from the starting node to all other nodes will be available in costs_table. Similarly, the actual shortest path from Start to Finish (or any Node) can be deduced by backtracking on the parents_table. You will understand it better when you see the  code where we print the shortest path.
 
 # Applying Dijkstra's Algorithm on the example Graph
 
@@ -56,7 +56,7 @@ Let's apply Dijkstra’s algorithm on our example Graph and see whether we are a
 
 `Setup Phase` :
 
-In the setup phase we have to initialize the costs_table. The rule to be followed is that, make an entry for every node except the starting node in the costs_table. For the nodes that are having direct edge from the Start node, make an entry with the edge weight as the cost, because that's the cost required to reach that node. For all other nodes, set the cost as "infinity", because we don't know whats the cost to reach them. Following this rule, we initialise the costs_table as below. Ideally, code should be written to do this initialization in a generic way. But, to keep this simple, we are initializing costs_table this way, which is very specific for the Graph that we have taken as example. In subsequent iterations, we will try to generalize this code as well.
+In the setup phase we have to initialize the costs_table. The rule to be followed is that, make an entry for every node except the starting node in the costs_table. For the nodes that are having direct edge from the Start node, make an entry with the edge weight as the cost, because that's the cost required to reach that node. For all other nodes, set the cost as "infinity", because we don't know whats the cost to reach them. Following this rule, we initialise the costs_table as below. 
 
 {% highlight python %}
 costs_table = {}
@@ -64,6 +64,8 @@ costs_table["A"] = 6
 costs_table["B"] = 2
 costs_table["Finish"] = infinity
 {% endhighlight %}
+
+Ideally, code should be written to do this initialization in a generic way. But, to keep thinks simple, we are initializing costs_table this way, which is very specific for the Graph that we have taken as example. In subsequent iterations, we will try to generalize this code as well.
 
 `Probing Phase` :
 
@@ -79,9 +81,9 @@ At the very beginning of the iteration, the entries in costs_table are simple en
 
 From the costs_table we pick least cost node, which is Node B. 
 
-Step 2: `Perform relaxation` or `Update the costs_table` for each of the neighbours of least cost node (currently Node B). Formula used will be new_cost = cost_to_reach_least_cost_node +  neighbours_edge_weight, which is new_cost = costs_table[least_cost_node] + neighbours_edge_weight, which is same as new_cost = costs_table[least_cost_node] + graph[least_cost_node][neighbour]. We replace the cost table entry only if new_cost is less than the existing cost. In otherwords, we replace the cost table entry only if new path is better than the existing path.
+Step 2: `Perform relaxation` or Update the costs_table for each of the neighbours of the least_cost_node (currently Node B). Formula used will be new_cost = cost_to_reach_least_cost_node +  neighbours_edge_weight. We replace the costs_table entry only if new_cost is less than the existing cost. In otherwords, we replace the costs_table entry only if new path is better than the existing path.
 
-Since B is the least cost node, we get all neighbours of B, using graph[B].keys(). This will return A and Finish. So, try to update the costs_table entries for A and Finish. Current costs_table entry for A is 6, and the new_cost is costs_table[B] + edge_weight = 2 + 3 = 5. Since, new_cost is less that current entry we update the costs_table with new value.  
+Since B is the least_cost_node, we get all neighbours of B, using graph[B].keys(). This will return Node A and Node Finish. So, we will perform relaxation on Node A and Node Finish. Current costs_table entry for Node A is 6, and the new_cost is costs_table[B] + edge_weight (of path from B to A) = 2 + 3 = 5. Since, new_cost is less that current entry we update the costs_table for Node A with the new value.  
 
 {% highlight python %}
       Node   | Total cost to reach the Node
@@ -90,7 +92,7 @@ Since B is the least cost node, we get all neighbours of B, using graph[B].keys(
       Finish | Infinity (infinity because there is no direct path and we do not know the actual distance)
 {% endhighlight %}
 
-Now, for Finish the current cost is Infinity. new_cost = costs_table[B] + edge_weight = 2 + 5 = 7.
+For the Node Finish, the current cost is Infinity. new_cost = costs_table[B] + edge_weight (of path from B to Finish) = 2 + 5 = 7.
 
 {% highlight python %}
       Node   | Total cost to reach the Node
@@ -99,13 +101,13 @@ Now, for Finish the current cost is Infinity. new_cost = costs_table[B] + edge_w
      `Finish | 7`
 {% endhighlight %}
 
-One thing to note is that the costs_table entry is an aggregation edge weights based on the shortest known path to a Node. As and when we discovery a new optimal path, the costs_table entry is updated to reflect the latest aggregate cost.
+One thing to keep in mind is that the costs_table entry is an aggregation of edge weights based on the shortest known path to a Node. As and when we discovery a new optimal path, the costs_table entry is updated to reflect the latest aggregate cost.
 
-Step 3: Add B to processed/visited nodes list. Update parents_table entry for A and Finish this way, parents_table[A]='B' and parents_table[Finish]='B'. Basically, we are keeping a track of the path that we are following. We will discuss about why this is needed later.
+Step 3: Add B to processed nodes list. Update parents_table entry for Node A and Node Finish to point to Node B, which is the parent node for A and Finish. So we set, parents_table[A]='B' and parents_table[Finish]='B'.
 
-Step 4: Pick the next least cost node from costs_table. This time, it will return A. B is not returned because, B is in the processed_nodes list.
+Step 4: Pick the next least cost node from costs_table. This time, it will return A. Node B is not returned because, B is in the processed_nodes list.
 
-Step 5: From here we can loop back to Step 2. But for the purpose of illustration, we will walk through the entire execution flow. So, in this step we update the costs_table for each of the neighbours of A based on the formula explained in Step 2. Node A has only one neighbour, Finish. The current cost for Finish is 7. The new_cost = costs_table[A] + edge_weight = 5 + 1 = 6. Hurrah!, we found a new path which is better than the currenty known best path. It takes only 6 mins to reach Finish through A compared to the previous time which was 7 mins. So we update the cost table accordingly.
+Step 5: From here we can loop back to Step 2. But for the purpose of illustration, we will walk through the entire execution flow. So, in this step we update the costs_table for each of the neighbours of Node A based on the formula explained in Step 2. Node A has only one neighbour, Node Finish. The current costs_table entry for Node Finish is 7. The new_cost = costs_table[A] (or cost to reach A) + edge_weight (from A to Finish) = 5 + 1 = 6. Hurrah!, we found a new path which is better than the currenty known best path. It takes only 6 mins to reach Finish through A compared to the previous time which was 7 mins. So we update the costs_table accordingly.
 
 {% highlight python %}
       Node   | Total cost to reach the Node
@@ -114,24 +116,24 @@ Step 5: From here we can loop back to Step 2. But for the purpose of illustratio
      `Finish | 6`
 {% endhighlight %}
 
-Step 6: Add A to processed/visited nodes list. Update parents_table entry for Finish. Basically, we will set parents_table[Finish]='A' to indicate that the path to Finish is through A.
+Step 6: We add A to processed_nodes list. Update parents_table entry for Finish. Basically, we will set parents_table[Finish]='A' to indicate that the path to Finish is through A.
 
 Step 7: We again call find_lowest_cost_node, which will return the Finish node.
 
-Step 8: There are no neighbours for Finish node. So, updation of costs_table gets skipped.
+Step 8: There are no neighbours for Finish node. So, `Perform relaxation` phase gets skipped.
 
-Step 9: We again go back to find_lowest_cost_node. This time it will return None, as all of the nodes are in the processed/visited node list. That marks the end of Dijkstra's algorithm execution. At this point, costs_table will have the cost of shortest path from Start node to any given node. For example, costs_table[Finish] will give cost of Shortest path from Start node to Finish node.
+Step 9: We again go back to find_lowest_cost_node. This time it will return None, as all of the nodes are in the processed_nodes list. That marks the end of Dijkstra's algorithm execution. At this point, costs_table will have the cost of shortest path from Start node to any given node. For example, costs_table[Finish] will give cost of Shortest path from Start node to Finish node.
 
-Step 10: In order to print the actual shortest path, we need to backtrack using the parents_table. parents_table['Finish'] will give parent of Finish. We will have to do this for every parent node, until we reach the Start node.
+Step 10: In order to print the actual shortest path, we need to backtrack using the parents_table. parents_table['Finish'] will give parent of Finish. We will have to do this for every parent node, until we reach the Start node. This can be seen in action under the `Print the results` section of python code.
 
 # Datastructures required to implement Dijkstra's Algorithm
 
 1. A HashTable which we call `Graph` to represent the Graph. It is actually a HashTable of HashTable because we have to store the weights of the edges as well. I will explain it in detail later.
 2. A HashTable which we call `costs_table` to represent the cost to reach a node. If the cost for a Node is unknown we put infinity.
 3. A HashTable which we call the `parents_table` to track the parent node of a given node.
-4. A List which we call the `processed_nodes` to track the visited or processed nodes.
+4. A List which we call the `processed_nodes` to keep track of the visited or processed nodes.
 
-How do we `represent the Graph` with weight using HashTable? Based on our earlier strategy, we would have represented the connection from "Start" to A and B as follows,
+How do we `represent the Graph` with weights using HashTable? Based on our earlier strategy, we would have represented the connection from "Start" to A and B as follows,
 
 {% highlight python %}
 graph = {}
@@ -140,7 +142,7 @@ graph["Start"] = ["A", "B"]
 
 You may have a look at the visualization [here] [Python-tutor-1].
 
-But, where do we put the weight corresponding to A and B? Again, hashtable comes to our rescue. Instead of placing an Array within a HashTable entry, we are going to place a HashTable within the HashTable.  
+But, where do we put the weight corresponding to the edges Start->A and Start->B? Again, hashtable comes to our rescue. Instead of placing an Array within a HashTable entry, we are going to place a HashTable within the HashTable.  
 
 {% highlight python %}
 graph={}
@@ -151,16 +153,16 @@ graph["Start"]["B"] = 2
 
 Just to reiterate the point, in earlier representation of Graph graph["Start"] would return a List containing the neighbours of `"Start"` node, namely `["A", "B"]`.
 
-In the new representation, graph["Start"] would return a HashTable who's key/value pair represents the neighbour node and the distance of neighbour node from `"Start"` node, namely `{"A" : 6, "B", 2}`. 
+In the new representation, graph["Start"] would return a HashTable who's key/value pair represents the neighbour node and the weight of the edge from Start Node to the Neighbour Node, namely `{"A" : 6, "B", 2}`. 
 
 Again, the best way to understand this is to visualize it using [PythonTutor] [Python-tutor-2].
 
 ## A Naive Implementation of Dijkstra's Algorithm in Python
 The aim here is to keep the code as simple as possible to understand. Some of the variable names have been stretched to the limit of identifier length possible in other languages. Thankfully, in Python identifiers are unlimited in length. Since the focus is on understanding the crux of the algorithm, some of the steps that is necessary to invoke the algorithm, like the initialization of parents_table and costs_table, has been hardcoded in Main method based on the example Graph that we are using for this blog. In subsequent iterations we will try to improve this implementation.
 
-I could have written the algorithm in couple of different ways, One is to have a findShortestPath() method which takes a Graph, Start Node and End Node as input. Another is to take only the Graph and Start Node as parameter and compute the shortest path to every other Node in the Graph. Here, we have taken a different approach, thinking that it will keep things simple. We have an implementation called dijkstras_algo() which when executed with a set of necessary inputs, produces the results in costs_table and parents_table. After the execution of the routine, you will be able to get the cost of shortest path from Start node to any Node in the graph by looking up the entry in costs_table with that Node as the key. Similarly, you will be able to print the exact Shortest path by backtracking the entries in parents_table. 
+I could have written the algorithm in couple of different ways, One is to have a findShortestPath() method which takes a Graph, Start Node and End Node as input. Another is to take only the Graph and Start Node as parameter and compute the shortest path to every other Node in the Graph. Here, we have taken a different approach, again thinking that it will keep things simple. We have an implementation called dijkstras_algo() which when executed with a set of necessary inputs, produces the results in costs_table and parents_table. After the execution of the routine, you will be able to get the cost of shortest path from Start node to any Node in the graph by looking up the entry in costs_table with that Node as the key. Similarly, you will be able to print the exact Shortest path by backtracking the entries in parents_table. 
 
-While analysing the algorithm, a question that can popup in your mind is, we are not specifying the Start Node and Finish node. Then, how does this algorithm work? For now, you can skip this section and come back and read the explanation if such a question pops up later. If you carefully look at the costs_table initialization code, you will notice that the entry for Start node is missing. Basically, we have made those entries with the assumption that we are starting from the Start node and made entries for all other nodes based on the travel time of those nodes from the Start node. So the Start node problem is taken care of that way. Now for the Finish node, since the algorithm just computes the Shortest path for the entire Nodes in the Graph, this implementation does not need a Finish node value to break from the execution loop. It depends on the entries in processed_nodes to identify that all nodes are processed.
+While analysing the algorithm, a question that can popup in your mind is, we are not specifying the Start Node and Finish node. Then, how does this algorithm work? For now, you can skip this section and come back and read the explanation if such a question pops up later. If you carefully look at the costs_table initialization code, you will notice that the entry for Start node is missing. Basically, we have made those entries with the assumption that we are starting from the Start node and made entries for all other nodes based on the travel time of those nodes from the Start node. So the Start node problem is taken care of that way. Now for the Finish node, since the algorithm just computes the Shortest path for the entire Nodes in the Graph, this implementation does not need a Finish node value to break from the execution loop. It depends on the entries in processed_nodes to identify that all nodes are processed. Again, if you don't clearly understand this part, it's ok. When we move to the final implementation, we will be specifying a Start Node and End Node while invoking the Dijkstra's algorithm.
 
 {% highlight python %}
 def find_lowest_cost_node(costs_table, processed_nodes):
@@ -262,18 +264,18 @@ while parent:
 
 {% endhighlight %}
 
-You may spend sometime playing around with the [Live code][Dijkstra-Live] to get a hang of it.
+You may spend sometime to play around with the [Live code][Dijkstra-Live] to get a hang of it.
 
-Before we analyse this algorithm any further, one thing that we want to verify is the correctness of the implementation for atleast basic cases. For this I used the graph from [Geeks for Geeks][Geeks-for-Geeks-Graph-Question-1] and the output can be seen [here][Geeks-for-Geeks-Graph-Solution-1].
+Before we analyse this algorithm any further, one thing that we want to verify is the correctness of the implementation for atleast basic cases. For this, I used the graph from [Geeks for Geeks][Geeks-for-Geeks-Graph-Question-1] and the output can be seen [here][Geeks-for-Geeks-Graph-Solution-1].
 
 # Improving the Python Implementation
 First we will list out the things that we want to improve in the current implementation of Dijkstra's algorithm. Then, we will attack them one by one.
 
-1. Generalize the initialization of costs_table
+1. Generalize the initialization of costs_table.
 
-2. Generalize the initialization of parents_table
+2. Generalize the initialization of parents_table.
 
-3. Refactor the code to have a cleaner interface. The idea is to have a findShortestPath() that takes a Graph, start_node and an optional end_node as input. If end_node is not provided, it will find shortest path to all nodes.
+3. Refactor the code to have a cleaner interface. The idea is to have a findShortestPath() method that takes a Graph, start_node and an optional end_node as input. If end_node is not provided, it will find shortest path to all nodes.
 
 Ok, so let's start...
 
@@ -287,7 +289,7 @@ costs_table["B"] = 2
 costs_table["Finish"] = infinity
 {% endhighlight %}
 
-The requirement is this. The HashTable should contain costs to all direct nodes from Start node. For all other nodes cost should be set to infinity. So, we need to know the Start node and all it's neighbours including their edge weights. We also need to know all other nodes in the Graph to set them to infinity. This second requirement can be avoided by using a language feature. Python dictionaries and Java HashMap's have something called getOrDefault(key, defaultValue), which allows you to return a default value, in this case infinity, if there is no key present in the dictionary. 
+The requirement is this. The HashTable should contain costs to all direct nodes from Start node. For all other nodes cost should be set to infinity. So, we need to know the Start node and all it's neighbours including their edge weights. We also need to know all other nodes in the Graph to set them to infinity. This second requirement can be avoided by using a language feature. Python dictionaries and Java HashMap's have something called getOrDefault(key, defaultValue), which allows you to return a default value, which in this case will be `infinity`, if there is no key present in the dictionary. 
 
 {% highlight python %}
 # Start of Graph building
@@ -362,7 +364,7 @@ assert(parents_table.get("Finish", None) == None)
 
 You may try out the code [here][parents_table_code_snippet].
 
-I think now we are at a stage where we can start refactoring the code to meet our third requirement. For that I will straight away go to the code editor [here][Dijkstra-Live]. Now, I leave the refactoring part as an exercise to all of you. I will just show the finished product.
+I think now we are at a stage where we can start refactoring the code to meet our third requirement. For that I will straight away go to the code editor [here][Dijkstra-Live]. I leave the refactoring part as an exercise to all of you. I will just show the finished product.
 
 {% highlight python %}
 def find_lowest_cost_node(costs_table, processed_nodes):
