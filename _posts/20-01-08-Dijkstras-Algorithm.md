@@ -488,13 +488,23 @@ So, we have seen that the time complexity of current implementation is O(n^2) an
 
 ![image](/assets/images/complexity.png)
 
+## Note : This part is work in progress.
+
 # Improving time complexity of current implementation of Dijkstra's algorithm.
 We will focus on the part of the algorithm that is making it quadratic, which is the while loop and it's children (nested loops). We can't avoid the requirement of visiting every node (done by while loop). What we can really look at is, 
 
 1. Can we optimize the way we pick the lowest_cost node. Can it be done at a lesser cost that O(n).
 2. Can we optimize the relaxation process where we visit every neighbour of a given node.
 
-Let's attack problem 1 first, because that I think, will be easier to understand. 
+Let's attack `problem 1` first, because that I think, it will be easier to understand. All we are doing in find_lowest_cost_node() is to iterate over the costs_table entries, which is of time complexity O(n) ,to find the lowest cost node. Imagine, you have a queue where the lowest cost node is always placed at the front of the queue. Then, we can pick the cheapest node just by picking the first (front) element in the queue. The good thing is, such a queue is already there, which we call as priority queue, or min-heap. Now, the O(n) operation becomes O(1).
+
+Even if we do the above optimization, the algorithms overall complexity will still remain O(n^2), because we still have to optimize the `problem 2`. If you haven't understood why optimizing `problem 1` doesn't bring it down, you may spend some time to think over it.
+
+For `problem 2`, we have to update all neighbouring nodes (of a given node) for which the new total cost is going to be less than what is present in costs_table. We know that, new cost is computed as current_node_total_cost + edge_weight_of_path_to_neighbour. Assume that we are at `Node B`, who's total cost is 20 and `Node C`, `Node D` and 'Node E' are neighbours with edge weight 5, 10, 15 respectively. During relaxation, we perform following checks,
+
+1. is 20 + 5 less than costs_table[C]
+2. is 20 + 10 less than costs_table[D]
+3. is 20 + 15 less than costs_table[E] 
 
 ## References
 
