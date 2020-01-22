@@ -462,6 +462,40 @@ print("Shortest path ", shortest_path)
 
 You may try out the [live code link here][dijkstras_final].
 
+# Complexity Analysis
+
+Ok, so we are at the final part of this gentle introduction to Dijkstra's (finally I was able to type it without seeing the spelling :D) algorithm, where we are going to analyse the time and space complexity of the above implementation.
+
+1. Time Complexity Analysis 
+
+One way to arrive at the time complexity is to look at the number of loops in the main algorithm findShortestPath() and their hierarchy. Given below is an outline of the loops and their hierarchy, where n is the no. of vertices.
+
+{% highlight python %}
+# This can be ignored as the repeated call is inside while loop
+find_lowest_cost_node()                   O(n)
+while loop for every node in graph        O(n)
+    for every neighbour of current node       O(n)
+    find_lowest_cost_node()                   O(n)
+
+{% endhighlight %}
+
+When we sum it up, we get O(n) + O(n * n) + O(n * n) ~ 2 * O(n^2). Since O(n^2) is the dominant term, we drop the O(n) cost associated with picking a cheapest node the very first time. This gives us,
+
+O(n^2) + O(n^2) = 2 * O(n^2). So, we drop the constant 2 and say that the worst case time complexity is O(n^2).
+
+# What next?
+So, we have seen that the time complexity of current implementation is O(n^2) and know that O(n^2) bad (see graph below). Can we improve it?
+
+![image](/assets/images/complexity.png)
+
+# Improving time complexity of current implementation of Dijkstra's algorithm.
+We will focus on the part of the algorithm that is making it quadratic, which is the while loop and it's children (nested loops). We can't avoid the requirement of visiting every node (done by while loop). What we can really look at is, 
+
+1. Can we optimize the way we pick the lowest_cost node. Can it be done at a lesser cost that O(n).
+2. Can we optimize the relaxation process where we visit every neighbour of a given node.
+
+Let's attack problem 1 first, because that I think, will be easier to understand. 
+
 ## References
 
 One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a YouTube video that's available [here][Abdul-Bari]. 
