@@ -488,29 +488,49 @@ So, we have seen that the time complexity of current implementation is O(n^2) an
 
 ![image](/assets/images/complexity.png)
 
-## Note : This part is work in progress.
-
 # Improving time complexity of current implementation of Dijkstra's algorithm.
-We will focus on the part of the algorithm that is making it quadratic, which is the while loop and it's children (nested loops). We can't avoid the requirement of visiting every node (done by while loop). What we can really look at is, 
+We will focus on the part of the algorithm that is making it quadratic, which is the while loop and it's children (nested loops). We can't avoid the requirement of visiting every node (done by while loop). We also can not avoid visiting each neighbours of a node during the relaxation process. What we can really look at is, 
 
-1. Can we optimize the way we pick the lowest_cost node. Can it be done at a lesser cost that O(n).
-2. Can we optimize the relaxation process where we visit every neighbour of a given node.
+  - Can we optimize the way we pick the lowest_cost node. Can it be done at a lesser cost that O(n).
 
-Let's attack `problem 1` first, because that I think, it will be easier to understand. All we are doing in find_lowest_cost_node() is to iterate over the costs_table entries, which is of time complexity O(n) ,to find the lowest cost node. Imagine, you have a queue where the lowest cost node is always placed at the front of the queue. Then, we can pick the cheapest node just by picking the first (front) element in the queue. The good thing is, such a queue is already there, which we call as priority queue, or min-heap. Now, the O(n) operation becomes O(1).
+All we are doing in find_lowest_cost_node() is to iterate over the costs_table entries, which is of time complexity O(n), to find the lowest cost node. Imagine, you have a queue where the lowest cost node is always placed at the front of the queue. Then, we can pick the cheapest node just by picking the first (front) element in the queue. The good thing is, such a queue is already there, which we call as priority queue, or min-heap. Now, the O(n) operation becomes O(1).
 
-Even if we do the above optimization, the algorithms overall complexity will still remain O(n^2), because we still have to optimize the `problem 2`. If you haven't understood why optimizing `problem 1` doesn't bring it down, you may spend some time to think over it.
+One important thing to keep in mind is that, the Priority Key implementation used in Dijkstra's algorithm will have to support a special operation named `decreaseKey()`, which is basically used to update the priority of an already existing element in the priority queue. You may watch this excellent video by [George T Heineman][George-T-Heineman] taken from his O'RELLY Video course `Working with Algorithms in Python`.
 
-For `problem 2`, we have to update all neighbouring nodes (of a given node) for which the new total cost is going to be less than what is present in costs_table. We know that, new cost is computed as current_node_total_cost + edge_weight_of_path_to_neighbour. Assume that we are at `Node B`, who's total cost is 20 and `Node C`, `Node D` and 'Node E' are neighbours with edge weight 5, 10, 15 respectively. During relaxation, we perform following checks,
+The pseudocode for Dijkstra's algorithm with Priority Queue will look like this :
 
-1. is 20 + 5 less than costs_table[C]
-2. is 20 + 10 less than costs_table[D]
-3. is 20 + 15 less than costs_table[E] 
+{% highlight python %}
+def shortestPath(G, s)
+  PQ = new PriorityQueue
+  set dist[v] ∞ for all v(of)G
+  set pred[v] -1 for all v(of)G
+  dist[s]=0
+
+  foreach v(of)G
+    PQ.insert(v, dist[v])
+
+  while(PQ is not empty) do
+    u = getMin(PQ)
+    foreach neighbour v of u do
+      w = edge weight of (u, v)
+      newLen = dist[u] + w
+      if (newLen < dist[v]) then
+        decreaseKey(PQ, v, newLen)
+        dist[v] = newLen
+        pred[v] = u 
+
+{% endhighlight %}
+
 
 ## References
 
 One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a YouTube video that's available [here][Abdul-Bari]. 
 
+George T Heineman's [George-T-Heineman] video on Dijkstra's algorithm is also very good to understand the implementation using priority queue. 
+
 [Abdul-Bari]: https://www.youtube.com/watch?v=XB4MIexjvY0&t=541s
+
+[George-T-Heineman]: https://www.youtube.com/watch?v=6fIQT_y5GgA&t=1323s
 
 [BSF-Algo]: https://unnisworld.github.io/algorithm/graph/bfs/shortestpath/2020/01/08/Graph-BFS.html
 
