@@ -289,7 +289,9 @@ costs_table["B"] = 2
 costs_table["Finish"] = infinity
 {% endhighlight %}
 
-The requirement is this. The HashTable should contain costs to all direct nodes from Start node. For all other nodes cost should be set to infinity. So, we need to know the Start node and all it's neighbours including their edge weights. We also need to know all other nodes in the Graph to set them to infinity. This second requirement can be avoided by using a language feature. Python dictionaries and Java HashMap's have something called getOrDefault(key, defaultValue), which allows you to return a default value, which in this case will be `infinity`, if there is no key present in the dictionary. 
+The requirement is this. The HashTable should contain costs to all direct nodes from Start node. For all other nodes cost should be set to infinity. So, we need to know the Start node and all it's neighbours including their edge weights. We also need to know all other nodes in the Graph to set them to infinity. This second requirement can be avoided by using a language feature. Python dictionaries and Java HashMap's have something called getOrDefault(key, defaultValue), which allows you to return a default value, which in this case will be `infinity`, if there is no key present in the dictionary.
+
+I found a more straight forward and more easily explainable requirement that can be used to initialize the costs_table. Since we start from the `Start` node, we can assume that we just know the Start node and not even it's neighbours. So, we just need to fill one costs_table entry, which is for the `Start` node. ie; costs_table['Start'] = 0, to say it in another way, distance from Start node to Start node is all that we know, and it is Zero. The algorithm will take care of filling up rest of the distances. Keep in mind that in the final completed code, I will be using this strategy. Once I am confident with this approach, I will update the blog to eraze the initial approach described here.
 
 {% highlight python %}
 # Start of Graph building
@@ -321,6 +323,8 @@ assert(costs_table.get("Finish", infinity) == infinity)
 {% endhighlight %}
 
 You may tryout the [costs_table construction code here][costs_table_code_snippet]. One thing to note is that while accessing the entries of costs_table, we are not using the [] syntax, instead we are using the get() method which has support for getOrDefault().
+
+
 
 Ok, so our costs_table code is ready. We will incorporate this code change in our main routine shortly. Before that we will work on our next requirement, which is to build the parents_table in a generic way.
 The current parents_table initialization code is given below,
@@ -389,8 +393,10 @@ def build_parents_table(graph, start_node):
 
 def build_costs_table(graph, start_node):
     costs_table = {}
-    for n in graph["Start"].keys():
-      costs_table[n]=graph["Start"][n]
+    # New simplified initialization
+    costs_table[start_node] = 0
+    #for n in graph["Start"].keys():
+    #  costs_table[n]=graph["Start"][n]
     return costs_table
 
 # If you specify an end_node then Algorithm will stop probbing once
