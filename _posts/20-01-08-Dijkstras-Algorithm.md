@@ -5,6 +5,13 @@ date:   2020-01-08 10:10:00 +0530
 categories: algorithm graph ShortestPath DijkstrasAlgorithm
 ---
 ## A Gentle introduction to Dijkstra’s algorithm
+
+AIM: To understand Dijkstra's algorithm really well and implement it in Java.
+
+Route: We will use plain english, a bit of pseudocode and python to introduce the algorithm and finally implement it using Java.
+
+If you are visiting related Graph topic after a while, you may read this quick [introduction to Graph concepts by Hacker Earth] [Quick-Overview-By-Hacker-Earth].
+
 Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” for `weighted graphs`. Remember, [BFS Algorithm][BSF-Algo] does the same thing for unweighted graphs. 
 
 Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
@@ -521,12 +528,198 @@ def shortestPath(G, s)
 
 {% endhighlight %}
 
+# Java implementation of Dijkstra's algorithm
+I think we have gained enough acquaintance with the Dijkstra's algorithm that we can attempt it in Java now.
 
-## References
+We will start with the naive approach and then go on to implement it with PriorityQueue.
 
-One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a YouTube video that's available [here][Abdul-Bari]. 
+{% highlight java %}
+package graph;
 
-George T Heineman's [George-T-Heineman] video on Dijkstra's algorithm is also very good to understand the implementation using priority queue. 
+import java.util.*;
+
+public class DijkstrasAlgo {
+
+    public static void main(String args[]) {
+//        graph = {
+//                "Start" : {"A":6, "B":2},
+//                "A" : {"Finish":1},
+//                "B" : {"A":3, "Finish":5},
+//                "Finish" : {}
+//        }
+
+        // Initialize the Graph
+        Graph g = new Graph();
+        g.addEdge("Start", "A", 6);
+        g.addEdge("Start", "B", 2);
+        g.addEdge("A", "Finish", 1);
+        g.addEdge("B", "A", 3);
+        g.addEdge("B", "Finish", 5);
+        g.addVertex("Finish");
+
+        System.out.println("Graph :"+ g);
+
+        // We are passing null for endNode so that the algo will find
+        // shortest path to all nodes.
+        ResultPair<Map<String, Integer>, Map<String, String>> results =
+                findShortestPath(g, "Start", null);
+
+        System.out.println("CostsTable :" + results.resultOne);
+        System.out.println("ParentsTable :" + results.resultTwo);
+
+        // Let's print shortest path from Start to Finish and it's cost.
+        System.out.println("\nPrinting path from Start to Finish.");
+        String currentNode = "Finish";
+        Deque<String> stack = new LinkedList<>();
+        while(currentNode != null) {
+            stack.push(currentNode);
+            currentNode = results.resultTwo.get(currentNode);
+        }
+
+        while(stack.size() != 0) {
+            currentNode = stack.pop();
+            System.out.print(currentNode + "->");
+        }
+
+        System.out.println("\nCost of the path :"+ results.resultOne.get("Finish"));
+    }
+
+    public static ResultPair<Map<String, Integer>, Map<String, String>>
+        findShortestPath(Graph g, String startNode, String endNode) {
+        Objects.requireNonNull(g);
+        Objects.requireNonNull(startNode);
+
+        Map<String, Integer> costsTable = new HashMap<>();
+        Map<String, String> parentsTable = new HashMap<>();
+        Set<String> processedNodes = new HashSet<>();
+
+        initializeCostsTable(g, startNode, costsTable);
+
+        String leastCostNode;
+        while((leastCostNode = findLeastCostNode(costsTable, processedNodes))
+                != null) {
+            if (leastCostNode.equals(endNode)) {
+                break;
+            }
+
+            relax(g, leastCostNode, costsTable, parentsTable);
+            processedNodes.add(leastCostNode);
+        }
+
+        return new ResultPair<Map<String, Integer>, Map<String, String>>
+                (costsTable, parentsTable);
+    }
+
+    private static void initializeCostsTable(Graph g, String startNode,
+                                             Map<String, Integer> costsTable) {
+        Set<String> allVertices = g.getAllVertices();
+        for (String vertex : allVertices) {
+            costsTable.put(vertex, Integer.MAX_VALUE);
+        }
+
+        costsTable.put(startNode, 0);
+    }
+
+    private static void relax(Graph g, String leastCostNode,
+                              Map<String, Integer> costsTable,
+                              Map<String, String> parentsTable) {
+        Map<String, Integer> neighbours = g.getNeighbours(leastCostNode);
+        int costToReachLeastCostNode = costsTable.get(leastCostNode);
+        for (String neighbourNode : neighbours.keySet()) {
+            int edgeWeight = neighbours.get(neighbourNode);
+            int newCost =  costToReachLeastCostNode + edgeWeight;
+            if (newCost < costsTable.get(neighbourNode)) {
+                costsTable.put(neighbourNode, newCost);
+                parentsTable.put(neighbourNode, leastCostNode);
+            }
+        }
+    }
+
+    private static String findLeastCostNode(Map<String, Integer> costsTable,
+                                            Set<String> processedNodes) {
+        Integer leastCost = Integer.MAX_VALUE;
+        String leastCostNode = null;
+        for (String key : costsTable.keySet()) {
+            if (processedNodes.contains(key)) {
+                continue;
+            }
+
+            int cost = costsTable.get(key);
+            if (cost < leastCost) {
+                leastCost = cost;
+                leastCostNode = key;
+            }
+        }
+
+        return leastCostNode;
+    }
+
+    static class Graph {
+
+        private Map<String, Map<String, Integer>> vertices =
+                new HashMap<String, Map<String, Integer>>();
+
+        public void addVertex(String vertex) {
+            vertices.put(vertex, new HashMap<String, Integer>());
+        }
+
+        public void addEdge(String u, String v, int weight) {
+            Map<String, Integer> neighbours =
+                    vertices.getOrDefault(u, new HashMap<String, Integer>());
+            neighbours.put(v, Integer.valueOf(weight));
+
+            vertices.put(u, neighbours);
+        }
+
+        public Set<String> getAllVertices() {
+            return vertices.keySet();
+        }
+
+        public Map<String, Integer> getNeighbours(String vertex) {
+            return vertices.getOrDefault(vertex, new HashMap<String, Integer>());
+        }
+
+        @Override
+        public String toString() {
+            return "Graph{" +
+                    "vertices=" + vertices +
+                    '}';
+        }
+    }
+
+
+    static class ResultPair<T, U> {
+        private T resultOne;
+        private U resultTwo;
+
+        public ResultPair(T t, U u) {
+            resultOne = t;
+            resultTwo = u;
+        }
+
+        public T getResultOne() {
+            return resultOne;
+        }
+
+        public U getResultTwo() {
+            return resultTwo;
+        }
+    }
+}
+
+{% endhighlight %}
+
+# References
+
+1. One of the best introductions on Dijkstra's algorithm that I have come across is by Mr. Abdul Bari. It's a YouTube video that's available [here][Abdul-Bari]. 
+
+2. George T Heineman's [George-T-Heineman] video on Dijkstra's algorithm is also very good to understand the implementation using priority queue.
+
+3. An interesting [stackoverflow discussion][stackoverflow-discussion] where I found this cool [hipster4j library][hipster4j-link].
+
+4. Finally, [this is by far the best video][William-Fiset] that I have seen on Dijikstra's algorithm. Probably I wouldn't have seen anything else if I had gone through this one first.
+
+[Quick-Overview-By-Hacker-Earth]: https://www.hackerearth.com/practice/notes/graph-theory-part-i/
 
 [Abdul-Bari]: https://www.youtube.com/watch?v=XB4MIexjvY0&t=541s
 
@@ -549,3 +742,7 @@ George T Heineman's [George-T-Heineman] video on Dijkstra's algorithm is also ve
 [parents_table_code_snippet]: http://www.pythontutor.com/visualize.html#code=%23%20Start%20of%20Graph%20building%0A%23%20We%20need%20the%20Graph%20to%20build%20the%20parents_table.%0Agraph%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%5B%22A%22%5D%20%3D%206%0Agraph%5B%22Start%22%5D%5B%22B%22%5D%20%3D%202%0A%0Agraph%5B%22A%22%5D%20%3D%20%7B%7D%0Agraph%5B%22A%22%5D%5B%22Finish%22%5D%20%3D%201%0A%0Agraph%5B%22B%22%5D%20%3D%20%7B%7D%0Agraph%5B%22B%22%5D%5B%22A%22%5D%20%3D%203%0Agraph%5B%22B%22%5D%5B%22Finish%22%5D%20%3D%205%0A%0Agraph%5B%22Finish%22%5D%20%3D%20%7B%7D%0A%23%20End%20of%20Graph%20building%0A%0Astart_node%3D%22Start%22%0Aparents_table%20%3D%20%7B%7D%0A%23for%20all%20the%20neighbours%20of%20Start%20node%0Afor%20n%20in%20graph%5B%22Start%22%5D.keys%28%29%3A%0A%20%20parents_table%5Bn%5D%3D%22Start%22%0A%0Aassert%28parents_table.get%28%22A%22%29%20%3D%3D%20%22Start%22%29%0Aassert%28parents_table.get%28%22B%22%29%20%3D%3D%20%22Start%22%29%0Aassert%28parents_table.get%28%22Finish%22,%20None%29%20%3D%3D%20None%29&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false
 
 [dijkstras_final]: http://www.pythontutor.com/visualize.html#code=def%20find_lowest_cost_node%28costs_table,%20processed_nodes%29%3A%0A%20%20%20%20lowest_cost%20%3D%20infinity%0A%20%20%20%20lowest_cost_node%20%3D%20None%0A%20%20%20%20%23%20Go%20through%20each%20node.%0A%20%20%20%20for%20node%20in%20costs_table%3A%0A%20%20%20%20%20%20%20%20cost%20%3D%20costs_table.get%28node,%20infinity%29%0A%20%20%20%20%20%20%20%20%23%20If%20it's%20the%20lowest%20cost%20so%20far%20and%20hasn't%20been%20processed%20yet...%0A%20%20%20%20%20%20%20%20if%20cost%20%3C%20lowest_cost%20and%20node%20not%20in%20processed_nodes%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%23%20...%20set%20it%20as%20the%20new%20lowest-cost%20node.%0A%20%20%20%20%20%20%20%20%20%20%20%20lowest_cost%20%3D%20cost%0A%20%20%20%20%20%20%20%20%20%20%20%20lowest_cost_node%20%3D%20node%0A%20%20%20%20return%20lowest_cost_node%0A%0Adef%20build_parents_table%28graph,%20start_node%29%3A%0A%20%20%20%20parents_table%20%3D%20%7B%7D%0A%20%20%20%20%23for%20all%20the%20neighbours%20of%20Start%20node%0A%20%20%20%20for%20n%20in%20graph%5B%22Start%22%5D.keys%28%29%3A%0A%20%20%20%20%20%20parents_table%5Bn%5D%3D%22Start%22%0A%20%20%20%20return%20parents_table%0A%0Adef%20build_costs_table%28graph,%20start_node%29%3A%0A%20%20%20%20costs_table%20%3D%20%7B%7D%0A%20%20%20%20for%20n%20in%20graph%5B%22Start%22%5D.keys%28%29%3A%0A%20%20%20%20%20%20costs_table%5Bn%5D%3Dgraph%5B%22Start%22%5D%5Bn%5D%0A%20%20%20%20return%20costs_table%0A%0A%23%20If%20you%20specify%20an%20end_node%20then%20Algorithm%20will%20stop%20probbing%20once%0A%23%20it's%20able%20to%20find%20the%20shortest%20path%20to%20end_node.%20Otherwise,%20it%20will%20find%0A%23%20shortest%20path%20to%20all%20nodes%20in%20the%20Graph.%0Adef%20findShortestPath%28graph,%20start_node,%20end_node%3DNone%29%3A%0A%20%20%20%20parents_table%20%3D%20build_parents_table%28graph,%20start_node%29%0A%20%20%20%20costs_table%20%3D%20build_costs_table%28graph,%20start_node%29%0A%20%20%20%20processed_nodes%20%3D%20%5B%5D%0A%0A%20%20%20%20lowest_cost_node%20%3D%20find_lowest_cost_node%28costs_table,%20processed_nodes%29%0A%20%20%20%20while%20lowest_cost_node%20is%20not%20None%3A%0A%20%20%20%20%20%20%20%20if%20end_node%20and%20lowest_cost_node%20%3D%3D%20end_node%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20break%0A%20%20%20%20%20%20%20%20%23%20Iterate%20over%20the%20neighbours%20of%20lowest_cost_node%0A%20%20%20%20%20%20%20%20for%20n%20in%20graph%5Blowest_cost_node%5D.keys%28%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20edge_weight%20%3D%20graph%5Blowest_cost_node%5D%5Bn%5D%0A%20%20%20%20%20%20%20%20%20%20%20%20new_cost%20%3D%20costs_table.get%28lowest_cost_node,%20infinity%29%20%2B%20edge_weight%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20new_cost%20%3C%20costs_table.get%28n,%20infinity%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20costs_table%5Bn%5D%20%3D%20new_cost%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20parents_table%5Bn%5D%20%3D%20lowest_cost_node%0A%20%20%20%20%20%20%20%20processed_nodes.append%28lowest_cost_node%29%0A%20%20%20%20%20%20%20%20lowest_cost_node%20%3D%20find_lowest_cost_node%28costs_table,%20processed_nodes%29%0A%0A%20%20%20%20return%20%28costs_table,%20parents_table%29%0A%0A%23%20Main%20method%0A%23%20Start%20of%20Graph%20building%0A%23%20We%20need%20the%20Graph%20to%20build%20the%20parents_table.%0Ainfinity%20%3D%20float%28%22inf%22%29%0A%0Agraph%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%5B%22A%22%5D%20%3D%206%0Agraph%5B%22Start%22%5D%5B%22B%22%5D%20%3D%202%0A%0Agraph%5B%22A%22%5D%20%3D%20%7B%7D%0Agraph%5B%22A%22%5D%5B%22Finish%22%5D%20%3D%201%0A%0Agraph%5B%22B%22%5D%20%3D%20%7B%7D%0Agraph%5B%22B%22%5D%5B%22A%22%5D%20%3D%203%0Agraph%5B%22B%22%5D%5B%22Finish%22%5D%20%3D%205%0A%0Agraph%5B%22Finish%22%5D%20%3D%20%7B%7D%0A%23%20End%20of%20Graph%20building%0A%0Acosts_table,%20parents_table%20%3D%20findShortestPath%28graph,%20%22Start%22,%20%22Finish%22%29%0Aprint%28%22Cost%20of%20shortest%20path%20from%20Start%20to%20Finish%20is%20%22,%20costs_table%5B%22Finish%22%5D%29%0A%0A%23%20Code%20to%20retrieve%20shortest%20path%20from%20parents_table%0Ashortest_path%20%3D%20%5B%5D%0Acurrent_node%20%3D%20%22Finish%22%0Ashortest_path.append%28current_node%29%0Awhile%20parents_table.get%28current_node,%20None%29%3A%0A%20%20current_node%20%3D%20parents_table%5Bcurrent_node%5D%0A%20%20shortest_path.append%28current_node%29%0A%0Ashortest_path.reverse%28%29%0A%0Aprint%28%22Shortest%20path%20%22,%20shortest_path%29%0A&cumulative=false&curInstr=138&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false
+
+[stackoverflow-discussion]: https://stackoverflow.com/questions/17480022/java-find-shortest-path-between-2-points-in-a-distance-weighted-map
+[hipster4j-link]: http://www.hipster4j.org/
+[William-Fiset]: https://www.youtube.com/watch?v=pSqmAO-m7Lk
