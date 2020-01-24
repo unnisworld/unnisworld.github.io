@@ -14,7 +14,7 @@ If you are visiting related Graph topic after a while, you may read this quick [
 
 Dijkstra’s algorithm, lets you answer “What’s the shortest path to X?” for `weighted graphs`. Remember, [BFS Algorithm][BSF-Algo] does the same thing for unweighted graphs. 
 
-Dijkstra’s algorithm only works with directed acyclic graphs, called DAGs for short. In other words, If there are cycles in graphs, Dijkstra’s algorithm doesn’t work.
+Dijkstra’s algorithm only works with directed graphs which does not have any negative cycles. The the algorithm works for graphs with positive cycles. See this [stackoverflow link][digikstra-cycle] for a nice discussion on the topic.
 
 Dijkstra’s algorithm doesn’t work for graphs with negative weight edges. For graphs with negative weight edges, Bellman–Ford algorithm can be used.
 
@@ -726,6 +726,8 @@ public class DijkstrasAlgo {
 [George-T-Heineman]: https://www.youtube.com/watch?v=6fIQT_y5GgA&t=1323s
 
 [BSF-Algo]: https://unnisworld.github.io/algorithm/graph/bfs/shortestpath/2020/01/08/Graph-BFS.html
+
+[digikstra-cycle]: https://stackoverflow.com/questions/43394847/dijkstras-algorithm-and-cycles
 
 [Python-tutor-1]: http://www.pythontutor.com/visualize.html#code=graph%20%3D%20%7B%7D%0Agraph%5B%22Start%22%5D%20%3D%20%5B%22A%22,%20%22B%22%5D&cumulative=false&curInstr=2&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false
 
