@@ -7,7 +7,7 @@ categories: leetcode-medium leetcode binarysearch
 
 Solution to [Find Minimum in Rotated Sorted Array][leetcode].
 
-While going through the code, have a look at the diagram in [this link][theoryofprogramming] to get a grasp on who we are picking the right partition during each iteration.  
+While going through the code, have a look at the diagram in [this link][theoryofprogramming] to get a grasp on how we are picking the right partition during each iteration.  
 
 {% highlight java %}
 class Solution {
