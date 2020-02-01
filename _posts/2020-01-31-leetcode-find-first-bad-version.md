@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Find Minimum in rotated sorted array"
+title:  "Find first bad version"
 date:   2020-02-01 10:00:00 +0530
 categories: leetcode-simple leetcode binarysearch
 ---
