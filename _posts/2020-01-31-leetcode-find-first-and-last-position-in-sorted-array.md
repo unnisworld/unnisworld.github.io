@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Find Minimum in rotated sorted array"
+title:  "Find First and Last Position of Element in Sorted Array"
 date:   2020-01-29 5:30:00 +0530
 categories: leetcode-medium leetcode binarysearch
 ---
