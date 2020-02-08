@@ -2,7 +2,7 @@
 layout: post
 title:  "Rotting Oranges"
 date:   2020-02-08 10:30:00 +0530
-categories: leetcode-easy leetcode grid
+categories: leetcode-easy leetcode grid BFS
 ---
 
 Solution to [Rotting Oranges problem][leetcode]. 
