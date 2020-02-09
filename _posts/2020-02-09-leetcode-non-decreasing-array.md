@@ -33,4 +33,7 @@ class Solution {
 }
 {% endhighlight %}
 
+Credit goes to [this guy][credit].
+
 [leetcode]: https://leetcode.com/problems/non-decreasing-array/
+[credit]: https://leetcode.com/problems/non-decreasing-array/discuss/484083/Easiest-solution-to-understand-O(n)
