@@ -2,7 +2,7 @@
 layout: post
 title:  "Find Subsets or Power set"
 date:   2020-02-09 22:45:00 +0530
-categories: leetcode-medium leetcode set subsets powerset
+categories: leetcode leetcode-medium set subsets powerset
 ---
 
 Solution to [return all possible subsets (the power set)][leetcode] problem.
