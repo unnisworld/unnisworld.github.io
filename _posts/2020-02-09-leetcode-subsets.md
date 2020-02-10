@@ -32,5 +32,35 @@ class Solution {
 
 The approach used is explained in [this geeksforgeeks link][approach].
 
+# Alternate approach using Recursion
+
+This approach is a direct port of the [python code provided][alt-approach-1] in the leetcode discussion.
+
+{% highlight java %}
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<Integer>();
+
+        dfs(nums, 0, path, ans);
+        return ans;
+    }
+    
+    private void dfs(int[] nums, int ndx, List<Integer> path, List<List<Integer>> ans)     {
+        ans.add(path);
+
+        for(int i=ndx;i<nums.length;i++){
+            List<Integer> npath = new ArrayList<Integer>(path);
+            npath.add(nums[i]);
+            ndx = ndx + 1;
+            dfs(nums, ndx, npath, ans);
+        }
+    }
+    
+}
+{% endhighlight %}
+
+
 [leetcode]: https://leetcode.com/problems/subsets/
 [approach]: https://www.geeksforgeeks.org/finding-all-subsets-of-a-given-set-in-java/
+[alt-approach-1]: https://leetcode.com/problems/subsets-ii/discuss/485407/python-easy-understanding-method
