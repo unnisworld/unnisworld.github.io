@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Remove Duplicates from Sorted List II"
-date:   2020-02-16 08:00:00 +0530
+date:   2020-02-22 08:00:00 +0530
 categories: leetcode leetcode-medium LinkedList
 ---
 
