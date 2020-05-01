@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Find Minimum in rotated sorted array"
+title:  "Leetcode 153 : Find Minimum in rotated sorted array"
 date:   2020-01-29 5:30:00 +0530
-categories: leetcode-medium leetcode binarysearch
+categories: leetcode-medium leetcode binarysearch array
 ---
 
 Solution to [Find Minimum in Rotated Sorted Array][leetcode].
