@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 141 Linked List Cycle"
+title:  "Leetcode 141 : Linked List Cycle"
 date:   2020-05-01
 categories: leetcode-easy leetcode linkedlist
 ---

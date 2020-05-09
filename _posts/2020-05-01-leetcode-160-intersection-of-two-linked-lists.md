@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 160 Intersection of Two Linked Lists"
+title:  "Leetcode 160 : Intersection of Two Linked Lists"
 date:   2020-05-01
 categories: leetcode-easy leetcode linkedlist
 ---

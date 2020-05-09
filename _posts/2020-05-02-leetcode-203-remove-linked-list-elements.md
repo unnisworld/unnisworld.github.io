@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 203 Remove Linked List Elements"
+title:  "Leetcode 203 : Remove Linked List Elements"
 date:   2020-05-01
 categories: leetcode-easy leetcode linkedlist
 ---

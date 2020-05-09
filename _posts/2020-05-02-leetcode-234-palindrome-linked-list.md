@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 234 Palindrome Linked List"
+title:  "Leetcode 234 : Palindrome Linked List"
 date:   2020-05-02
 categories: leetcode-easy leetcode linkedlist
 ---

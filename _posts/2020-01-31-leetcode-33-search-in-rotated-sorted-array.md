@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 33 Search in Rotated Sorted Array"
+title:  "Leetcode 33 : Search in Rotated Sorted Array"
 date:   2020-02-02 8:30:00 +0530
 categories: leetcode-medium leetcode binarysearch array
 ---

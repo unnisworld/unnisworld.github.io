@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 75 Sort Colors"
+title:  "Leetcode 75 : Sort Colors"
 date:   2020-05-01
 categories: leetcode-medium leetcode sort array
 ---

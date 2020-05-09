@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 142 Linked List Cycle ii"
+title:  "Leetcode 142 : Linked List Cycle ii"
 date:   2020-05-01
 categories: leetcode-medium leetcode linkedlist
 ---

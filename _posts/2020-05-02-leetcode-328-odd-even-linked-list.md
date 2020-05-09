@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Leetcode : 328 Odd Even Linked List"
+title:  "Leetcode 328 : Odd Even Linked List"
 date:   2020-05-01
 categories: leetcode-medium leetcode linkedlist
 ---
