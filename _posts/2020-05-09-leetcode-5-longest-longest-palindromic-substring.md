@@ -8,7 +8,6 @@ categories: leetcode-medium leetcode string palindrom
 Solution to [Longest Palindromic Substring][leetcode] Problem. See this [video][utube] for a nice explanation.
 
 {% highlight java %}
-// https://www.youtube.com/watch?v=DK5OKKbF6GI
 class Solution {
     
     int resultStart;
