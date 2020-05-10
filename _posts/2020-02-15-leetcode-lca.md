@@ -2,7 +2,7 @@
 layout: post
 title:  "Lowest Common Ancestor of a Binary Tree"
 date:   2020-02-15 22:20:00 +0530
-categories: leetcode leetcode-medium tree lca
+categories: leetcode leetcode-medium Tree lca
 ---
 
 Solution to [Lowest Common Ancestor of a Binary Tree][leetcode] problem.
