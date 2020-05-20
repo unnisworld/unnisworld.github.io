@@ -2,7 +2,7 @@
 layout: post
 title:  "LeetCode 215 : Kth Largest Element in an Array"
 date:   2020-05-14
-categories: leetcode-medium leetcode array
+categories: leetcode-medium leetcode array Kth-problem
 ---
 
 Solution to [Kth Largest Element in an Array][leetcode] Problem. Here is a [nice video][utube] which explains the approach.

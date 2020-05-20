@@ -10,28 +10,32 @@ Solution to [Kth Smallest Element in BST][leetcode] Problem. This [leetcode solu
 
 {% highlight java %}
 class Solution {
-    
     public int kthSmallest(TreeNode root, int k) {
-        return iterateInOrderAndFetchKthElement(root, k);
-    }
-    
-    private int iterateInOrderAndFetchKthElement(TreeNode root, int k) {
+        // Steps :
+        // Do inorder traversal of BST
+        // Inorder traversal will process BST in ascending order
+        // Keep a track of the element count by decrementing k
+        // when k reaches 0, return the node val at that point
+        
         TreeNode cur = root;
-        LinkedList<TreeNode> stack = new LinkedList<>();
-        while(cur != null || !stack.isEmpty()) {
+        Stack<TreeNode> s = new Stack<>();
+        while(cur != null || !s.isEmpty()) {
+            // process the left subtree
             while(cur != null) {
-                stack.push(cur);
+                s.push(cur);
                 cur = cur.left;
             }
             
-            cur = stack.pop();
+            // process the middle element
+            cur = s.pop();
             if(--k == 0)
                 return cur.val;
             
+            // process the right subtree tree
             cur = cur.right;
         }
         
-        return -1;
+        return - 1;
     }
 }
 {% endhighlight %}
