@@ -7,6 +7,7 @@ categories: leetcode leetcode-medium Anagrams SlidingWindow
 
 Solution to [Find All Anagrams in a String][leetcode] problem.
 
+{% highlight java %}
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
         List<Integer> res = new ArrayList<>();
