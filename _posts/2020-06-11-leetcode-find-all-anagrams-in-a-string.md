@@ -2,7 +2,7 @@
 layout: post
 title:  "Leetcode 438 : Find All Anagrams in a String"
 date:   2020-02-22 11:36:00 +0530
-categories: leetcode leetcode-medium Anagrams SlidingWindow
+categories: leetcode leetcode-medium Anagrams SlidingWindow String
 ---
 
 Solution to [Find All Anagrams in a String][leetcode] problem.
