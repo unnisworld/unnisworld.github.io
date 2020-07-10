@@ -96,12 +96,12 @@ class Solution {
         if(nodeToBeDeleted.left == null)
             return nodeToBeDeleted.right;
         
-        TreeNode nextSmallestNode = nodeToBeDeleted.right;
-        while(nextSmallestNode.left !=null) {
-            nextSmallestNode = nextSmallestNode.left;
+        TreeNode inorderSuccessor = nodeToBeDeleted.right;
+        while(inorderSuccessor.left !=null) {
+            inorderSuccessor = inorderSuccessor.left;
         }
         
-        nextSmallestNode.left = nodeToBeDeleted.left;
+        inorderSuccessor.left = nodeToBeDeleted.left;
         
         return nodeToBeDeleted.right;
     } 
