@@ -109,7 +109,16 @@ class Solution {
 
 {% endhighlight %}
 
+The diagram below explains the steps followed to delete node (5) from the BST.
+Steps :
+    (a) Locate node (5)
+    (b) Find the inorder successor of (5) which is (6)
+    (c) Connect the left subtree of (5), which is (4) here, to the left of inorder successor
+    (d) Connect the right subtree of (5), which is (7) here, to the parent of (5)
+
 ![image](/assets/images//BST_Delete_Node_Steps.jpg)
+
+The diagram below shows the tree after the deletion of Node (5).
 
 ![image](/assets/images/BST_Delete_Node_After.jpg)
 
