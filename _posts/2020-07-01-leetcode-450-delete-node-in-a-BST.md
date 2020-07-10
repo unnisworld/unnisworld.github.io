@@ -109,4 +109,8 @@ class Solution {
 
 {% endhighlight %}
 
+![image](/assets/images//BST_Delete_Node_Steps.jpg)
+
+![image](/assets/images/BST_Delete_Node_After.jpg)
+
 [leetcode]: https://leetcode.com/problems/delete-node-in-a-bst/
