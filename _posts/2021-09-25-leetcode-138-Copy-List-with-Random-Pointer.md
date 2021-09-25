@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Leetcode 138 : Copy List with Random Pointer"
-date: 2020-07-10
+date: 2021-09-25
 categories: leetcode leetcode-medium LinkedList
 ---
 
