@@ -10,16 +10,16 @@ Solution to [Kth Largest Element in an Array][leetcode] Problem. Here is a [nice
 {% highlight java %}
 class Solution {
     public int findKthLargest(int[] nums, int k) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
         
         for(int i : nums) {
-            pq.add(i);
-            if(pq.size() > k) {
-                pq.remove();
+            minHeap.add(i);
+            if(minHeap.size() > k) {
+                minHeap.remove();
             }
         }
         
-        return pq.remove();
+        return minHeap.remove();
     }
 }
 {% endhighlight %}
