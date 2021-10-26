@@ -33,27 +33,30 @@ Iterative Solution
 
 {% highlight java %}
 class Solution {
-    
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-        LinkedList<TreeNode> s = new LinkedList<>();
+        List<Integer> result = new ArrayList<Integer>();
         
+        Stack<TreeNode> stack = new Stack<>();
         TreeNode cur = root;
-        while(!s.isEmpty() || cur != null) {
-            while(cur != null) {
-                s.push(cur);
-                cur = cur.left;
-            }
+        while(cur != null || !stack.isEmpty()) {
+            traverseToTheLeftEnd(cur, stack);
             
-            cur = s.pop();
+            cur = stack.pop();
             result.add(cur.val);
+            
             cur = cur.right;
         }
         
         return result;
     }
-
-}    
+    
+    private void traverseToTheLeftEnd(TreeNode cur, Stack stack) {
+        while(cur != null) {
+            stack.push(cur);
+            cur = cur.left;
+        }
+    }
+}   
 {% endhighlight %}
 
 [leetcode]: https://leetcode.com/problems/binary-tree-inorder-traversal/
