@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Leetcode 320 : Contains Duplicate III"
+title: "Leetcode 220 : Contains Duplicate III"
 date: 2021-11-28
 categories: leetcode leetcode-medium SlidingWindow Array
 ---
