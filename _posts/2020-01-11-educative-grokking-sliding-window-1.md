@@ -2,7 +2,7 @@
 layout: post
 title: "Educative Grokking : Maximum Sum Subarray of Size K"
 date: 2020-07-11
-categories: educative Sliding-Window
+categories: educative SlidingWindow
 ---
 Maximum Sum Subarray of Size K
 
