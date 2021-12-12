@@ -40,5 +40,27 @@ Time complexity : O(N Log N)
 
 Space complexity : O(N). Worst case we will store all entries in PQ.
 
+Another solution that does not use PriorityQueue.
+{% highlight java %}
+class Solution {
+    public int minMeetingRooms(int[][] intervals) {
+        int[][] endTimeSortedIntervals = intervals.clone();
+        Arrays.sort(intervals, (a,b) -> a[0] - b[0]);
+        Arrays.sort(endTimeSortedIntervals, (a,b) -> a[1] - b[1]);
+        
+        int rc = 0;
+        int j = 0;
+        for(int[] i : intervals) {
+            if(endTimeSortedIntervals[j][1] <= i[0]) {
+                j++;
+            } else {
+                rc++;
+            }
+        }
+        return rc;
+    }
+}
+{% endhighlight %}
+
 [leetcode]: https://www.lintcode.com/problem/meeting-rooms-ii/description
 [pq]: https://www.educative.io/edpresso/min-heap-vs-max-heap
