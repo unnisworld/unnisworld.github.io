@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "LintCode 919 : Meeting Rooms ll"
+title:  "LintCode 919 : Meeting Rooms ll same as LeetCode 253. Meeting Rooms II"
 date:   2020-05-20
 categories: lintcode-medium PriorityQueue Microsoft
 ---
