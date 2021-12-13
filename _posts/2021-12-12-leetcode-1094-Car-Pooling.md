@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "LintCode 1094 : Car Pooling"
-date:   2020-05-20
+title:  "LeetCode 1094 : Car Pooling"
+date:   2021-12-12
 categories: leetcode-medium Interval-Problems
 ---
 
