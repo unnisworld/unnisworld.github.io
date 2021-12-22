@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "LC 34. Find First and Last Position of Element in Sorted Array"
+title:  "Leetcode 34. Find First and Last Position of Element in Sorted Array"
 date:   2020-01-29 5:30:00 +0530
 categories: leetcode-medium leetcode binarysearch
 ---
