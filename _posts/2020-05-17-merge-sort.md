@@ -60,6 +60,8 @@ public class MergeSort {
     }
 }
 
+Further Reading - [Merge Sort](https://www.scaler.com/topics/data-structures/merge-sort-algorithm/) 
+
 {% endhighlight %}
 
 [desc]: https://leetcode.com/problems/k-closest-points-to-origin/discuss/220235/Java-Three-solutions-to-this-classical-K-th-problem.
