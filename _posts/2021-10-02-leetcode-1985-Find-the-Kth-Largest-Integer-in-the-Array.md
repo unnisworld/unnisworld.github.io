@@ -35,5 +35,11 @@ class Solution {
 
 [Here is a good article][priorityqueue] to refresh your understanding about Priority Queues in Java.
 
+Complexity
+
+Time: O(NlogK * M), where N <= 10^4 is length of nums array, K <= N is the kth largest element need to output, M <= 100 is length of each num.
+Explanation: The MinHeap keeps up to K elements, each heappush/heappop operator costs O(logK). We iterate all elements in nums and push/pop to the MinHeap N times. We need to multiply by M as well, since in the worst case, we need to compare strings lexicographically.
+Space: O(K)
+
 [leetcode]: https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
 [priorityqueue]:https://www.scaler.com/topics/java-priority-queue-comparator/
