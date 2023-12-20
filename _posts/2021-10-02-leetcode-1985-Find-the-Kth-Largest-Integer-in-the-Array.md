@@ -7,6 +7,8 @@ categories: leetcode leetcode-medium Heap
 
 Solution to [Find the Kth Largest Integer in the Array][leetcode] problem.
 
+In Java we need to use custom comparator since the default comparator is string comparator which compares by lexicographical order. It means for example: default comparator will treat "123" < "14" because "2" < "4".
+
 {% highlight java %}
 class Solution {
     public String kthLargestNumber(String[] nums, int k) {
