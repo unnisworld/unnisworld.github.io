@@ -33,4 +33,7 @@ class Solution {
 }
 {% endhighlight %}
 
+[Here is a good article][priorityqueue] to refresh your understanding about Priority Queues in Java.
+
 [leetcode]: https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
+[priorityqueue]:https://www.scaler.com/topics/java-priority-queue-comparator/
