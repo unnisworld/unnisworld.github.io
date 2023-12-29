@@ -7,7 +7,7 @@ categories: leetcode leetcode-medium Heap PriorityQueue
 
 Solution to [Find the Kth Largest Integer in the Array][leetcode2] problem.
 
-A simpler solution to this problem would be to use a PriorityQueue<Integer> with the default comparator (Same as [this problem][leetcode1]). But the constraints in this problem says, "nums[i].length <= 100", which means Integer (max 10 digits) and Long (max 19 digits) will overflow during the conversion from String to Integer/Long. One option is to keep the datatype unchanged and implement a String based comparator that can do the job.
+A simpler solution to this problem would be to use a PriorityQueue<Integer> with the default comparator which is the solution for [this LC problem][leetcode1]. But the constraints in this problem says, "nums[i].length <= 100", which means Integer (max 10 digits) and Long (max 19 digits) will overflow during the conversion from String to Integer/Long. One option is to keep the datatype unchanged and implement a String based comparator that can do the job.
 
 In Java we need to use custom comparator since the default comparator for string compares by lexicographical order. It means for example: default comparator will treat "123" < "14" because "2" < "4". So to overcome this, we will have a comparator which uses compareTo() method only if the string length of two objects to be compared is same, otherwise we will use the string.length() to identify which string/number is larger.
 
