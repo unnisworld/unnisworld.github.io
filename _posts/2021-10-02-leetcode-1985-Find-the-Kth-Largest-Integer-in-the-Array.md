@@ -47,6 +47,6 @@ Space: O(K)
 Checkout [this nice set of solutions][nice-solution] in leetcode community.
 
 [leetcode1]:https://leetcode.com/problems/kth-largest-element-in-an-array/description/
-[leetcode2]: https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
+[leetcode2]:https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
 [priorityqueue]:https://www.scaler.com/topics/java-priority-queue-comparator/
 [nice-solution]:https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/solutions/1431847/c-java-python-3-solutions-minheap-maxheap-quickselect-clean-concise/
