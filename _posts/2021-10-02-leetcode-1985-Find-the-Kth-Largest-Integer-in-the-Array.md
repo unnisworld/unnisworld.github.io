@@ -2,7 +2,7 @@
 layout: post
 title: "Leetcode 1985. Find the Kth Largest Integer in the Array"
 date: 2021-10-02
-categories: leetcode leetcode-medium Heap PriorityQueue
+categories: leetcode leetcode-medium Heap PriorityQueue Kth-problem
 ---
 
 Solution to [Find the Kth Largest Integer in the Array][leetcode2] problem.
