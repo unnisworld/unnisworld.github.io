@@ -11,10 +11,10 @@ Solution to [Search in Rotated Sorted Array With Duplicate Elements][leetcode].
 
 Approach one is a more laborious but easy to fit in head solution. It is still an O(logn) solution since it uses binary search in a 3 step process.
 
-Intuition
+# Intuition
 A rotated sorted array will have a boundary element such that all elements before it will be > the last element of the array and all elements after it will be either <= the last element of the array. The boundary element can be found using standard binary search. Once we find the boundary element, we can do binary search on both sides of the boundary element to find check whether the element is present in the array.
 
-Approach
+# Approach
 Step 1 : Find the boundary element using bsearch. For this, take last element in the array as the pivot and try to locate the first element in the array that is <= the pivot.
 Step 2: To handle duplicates, in step 1, during bsearch, keep skipping the left most elements while nums[l] == nums[r].
 Step 3: Do bsearch on left array
