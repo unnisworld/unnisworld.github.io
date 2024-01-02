@@ -5,7 +5,7 @@ date: 2023-12-30
 categories: leetcode leetcode-medium Heap PriorityQueue Kth-problem
 ---
 
-Solution to [Top K Frequent Wordsy][leetcode] problem.
+Solution to [Top K Frequent Words][leetcode] problem.
 
 {% highlight java %}
 class Solution {
@@ -19,6 +19,9 @@ class Solution {
 
 		PriorityQueue<String> minHeap = new PriorityQueue<String>(
 			(s1, s2) -> {
+                // Do s2.compareTo(s1) to place s2 ahead of s1
+                // This will ensure proper Lexicographic ordering of output
+                // when we call Collection.reverse at the last step.
 				if (freqMap.get(s1) == freqMap.get(s2)) return s2.compareTo(s1);
 				return freqMap.get(s1) - freqMap.get(s2);
 			});

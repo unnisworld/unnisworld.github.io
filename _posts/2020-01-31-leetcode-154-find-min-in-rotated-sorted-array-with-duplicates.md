@@ -7,6 +7,39 @@ categories: leetcode-medium leetcode binarysearch array
 
 Solution to [Find Minimum in Rotated Sorted Array with possible duplicate elements][leetcode].
 
+# Approach 1
+# Intuition 
+Minimum element is the first element in the array that is less than or equal to the last element in the array. Now the problem becomes a simple binary search to identify the first element that satisfy this criteria. The only additional trick is to add some code to handle the duplicate elements. For this, we will keep skipping duplicate elements from the left that are equal to the pivot (last element).
+
+# Approach
+1. Take last element as the Pivot element.
+2. Skip duplicate Pivot elements from the left. Duplicate pivot elements are those elements from the left of the array that are equal to the last element of the array.
+3. Now do binary search on the array to find the first element that is less than or equal to the last element.
+
+{% highlight java %}
+class Solution {
+    public int findMin(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        int boundaryElementIndex = r;
+        while( l <= r && nums[l] == nums[r]) { l++;}
+
+        while (l <= r) {
+            int m = l + (r - l)/2;
+            if (nums[m] <= nums[nums.length-1]) {
+                boundaryElementIndex = m;
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        return nums[boundaryElementIndex];
+    }
+}
+{% endhighlight %}
+
+# Approach 2
+
 While going through the code, have a look at the diagram in [this link][theoryofprogramming] to get a grasp on how we are picking the right partition during each iteration.  
 
 {% highlight java %}

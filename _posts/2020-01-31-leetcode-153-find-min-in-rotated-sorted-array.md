@@ -9,6 +9,32 @@ Solution to [Find Minimum in Rotated Sorted Array][leetcode].
 
 # Approach 1
 
+Intuition : Minimum element is the first element in the array that is less than or equal to the last element in the array. Now the problem becomes a simple binary search to identify the first element that satisfy this criteria.
+
+{% highlight java %}
+class Solution {
+    public int findMin(int[] nums) {
+        int l = 0;
+        int r = nums.length - 1;
+        int indexOfLastElement = nums.length - 1;
+        int boundaryIndex = -1;
+        while (l <= r) {
+            int m = l + (r - l)/2;
+            if (nums[m] <= nums[indexOfLastElement]) {
+                boundaryIndex = m;
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        return nums[boundaryIndex];
+    }
+}
+{% endhighlight %}
+
+# Approach 2
+
 In this approach you apply two rules during the search process.
 
 Rule 1: If mid element is less than element at mid-1, that means mid element is the pivot element. If you think about it, the array being sorted and rotated, the pivot element is the only place a transition happens from high to low.
@@ -55,9 +81,9 @@ class Solution {
 }
 {% endhighlight %}
 
-# Approach 2
+# Approach 3
 
-The code for approach 2 is very simple and does not require additional checks for edge case handling. This solution was given by @JJH11 in the [leetcode discussion thread][simpler-solution].
+The code for approach 3 is very simple and does not require additional checks for edge case handling. This solution was given by @JJH11 in the [leetcode discussion thread][simpler-solution].
 
 Two key rules to help understand the solution.
 
